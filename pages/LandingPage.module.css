@@ -1,0 +1,132 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
+    height: 5rem;
+}
+
+.navbarContainer {
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #F3EDC8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    gap: 2rem;
+}
+
+.logo {
+    height: 3.5rem;
+}
+
+.signIn {
+    color: #BF3131;
+    font-weight: bold;
+}
+
+.mainContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+    margin-left: 3rem;
+    margin-right: 1.25rem;
+}
+
+.textSection {
+    width: 50%;
+    text-align: justify;
+}
+
+.title {
+    text-align: left;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #515151;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    margin-left: 1rem;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: #515151;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+}
+
+.buttonSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+}
+
+.attendanceButton {
+    background-color: #7D0A0A;
+    color: #EAD196;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-right: 2rem;
+}
+
+.imageSection {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.smileImage {
+    height: 15rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: #7D0A0A;
+}
+
+.footerText {
+    color: #EAD196;
+    margin-left: 1rem;
+}
+
+.footerLinks {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footerLink {
+    color: #EAD196;
+}
+
+.footerIcon {
+    height: 1.25rem;
+}

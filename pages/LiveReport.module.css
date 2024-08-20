@@ -1,0 +1,85 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 70px;
+  color: #515151;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.attendanceList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.attendanceItem {
+  background-color: #e5c890;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.attendanceID {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.attendanceName {
+  font-size: 18px;
+  color: #333;
+}
+
+.attendanceInfo {
+  flex: 1;
+  margin-right: 20px;
+  text-align: left;
+}
+
+.attendanceDate, .attendanceTime {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.pagination {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageButton {
+  background-color: #7D0A0A;
+  color: #EAD196;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.arrowButton {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: #7D0A0A;
+  cursor: pointer;
+}
+
+.pageButton:hover, .arrowButton:hover {
+  background-color: #660707;
+}

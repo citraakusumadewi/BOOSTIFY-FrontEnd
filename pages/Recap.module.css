@@ -1,0 +1,230 @@
+.main {
+    flex: 1;
+    padding: 50px 20px;
+    text-align: center;
+}
+  
+.heading {
+    font-size: 32px;
+    font-weight: bold;
+    color: #4A4A4A;
+    margin-bottom: 100px;
+}
+  
+.recap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+    align-items: flex-start;
+    gap: 50px;
+}
+  
+.recapItem {
+    text-align: center;
+    color: #7D0A0A;
+    position: relative;
+}
+  
+.badge {
+    background-color: #EAD196;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+}
+  
+.rank1 {
+    order: 1;
+    transform: translate(80px, -20px);
+}
+  
+.rank2 {
+    order: 2;
+    transform: translate(-90px, 30px);
+}
+  
+.rank3 {
+    order: 3;
+    transform: translate(-10px, 30px);
+}
+  
+.star {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 20px;
+    color: #FFCF00;
+}
+  
+.points {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4A4A4A;
+    margin-top: 20px;
+    position: relative;
+}
+  
+.rank1 .points {
+    position: relative;
+    top: -30px;
+    left: 80px;
+}
+  
+.rank2 .points {
+    position: relative;
+    top: 15px;
+    left: -90px;
+}
+  
+.rank3 .points {
+    position: relative;
+    top: 15px;
+    right: 10px;
+}
+  
+.filter {
+    text-align: right;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    justify-content: flex-end;
+    display: flex;
+    transform: translateX(-500px);
+}
+  
+.filterButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #4A4A4A;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+  
+.dropdown {
+    position: absolute;
+    right: 0;
+    background-color: #EAD196;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+}
+  
+.dropdown p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+  
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.dropdown li {
+    font-size: 14px;
+    color: #4A4A4A;
+    cursor: pointer;
+    padding: 5px 0;
+}
+  
+.dropdown li:hover {
+    text-decoration: underline;
+}
+  
+.attendanceList {
+    margin: 0 auto;
+    max-width: 600px;
+}
+  
+.card {
+    background-color: #EAD196;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+  
+.left h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: #3F3C38;
+    text-align: left;
+}
+  
+.left p {
+    font-size: 18px;
+    color: #4A4A4A;
+}
+  
+.right p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #EAD196;
+}
+  
+.pagination {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.pageButton {
+    background-color: #7D0A0A;
+    color: #EAD196;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+  
+.arrowButton {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #7D0A0A;
+    cursor: pointer;
+}
+  
+.pageButton:hover, .arrowButton:hover {
+    background-color: #660707;
+}
+
+.pointsCard {
+    background-color: #7D0A0A;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 75px;
+    height: 60px;
+    font-size: 24px;
+    color: #EAD196;
+    text-align: center;
+}
+
+
+.medalIcon {
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    width: 40px;
+    height: 50px;
+  }
+  

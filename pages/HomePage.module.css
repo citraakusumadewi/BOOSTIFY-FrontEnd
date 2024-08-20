@@ -1,0 +1,73 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.textContent {
+  max-width: 50%;
+  padding-right: 20px;
+}
+
+.title {
+  font-size: 36px;
+  color: #4C4C4C;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 18px;
+  color: #4C4C4C;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.imageContent {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.mainImage {
+  height: 15rem;
+}
+
+.attendanceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0;
+  width: 100%;
+  /* background-color: #ffffff; */
+}
+
+.attendanceTitle {
+  font-size: 32px;
+  color: #4C4C4C;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.attendanceButton {
+  width: 200px;
+  padding: 15px 0;
+  background-color: #7D0A0A;
+  color: #EAD196;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}

@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  height: 5rem;
+}
+
+.logoContainer {
+  flex: 1;
+}
+
+.logo {
+  height: 3.5rem;
+  margin-left: 2rem;
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  gap: 2rem;
+}
+
+.dmlogo {
+  height: 1.5rem;
+}
+
+.signIn {
+  color: #b91c1c;
+  font-weight: bold;
+  margin-right: 2rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  color: #7D0A0A;
+  font-weight: medium;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: #7D0A0A;body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+  }
+}  

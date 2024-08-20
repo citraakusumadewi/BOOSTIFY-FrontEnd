@@ -1,0 +1,94 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #515151;
+  margin-bottom: 5rem;
+  margin-top: 1rem;
+}
+
+.featuresSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem;
+  margin-bottom: 4rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.featureBox {
+  background-color: #ead196;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 48%;
+}
+
+.subTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #7d0a0a;
+  margin-bottom: 1rem;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  font-size: 1.125rem;
+  color: #515151;
+  line-height: 2;
+}
+
+.imageBox {
+  width: 48%;
+  display: flex;
+  justify-content: center;
+}
+
+.deviceImage {
+  max-width: 35%;
+  border-radius: 0.5rem;
+}
+
+.benefitsSection {
+  margin-top: 5rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.benefitTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #7d0a0a;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.benefit {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.benefitIcon {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.benefitSubTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #515151;
+  margin-bottom: 0.5rem;
+}
+
+.p {
+  color: #515151;
+  line-height: 1.75;
+}

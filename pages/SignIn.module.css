@@ -1,0 +1,79 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+  
+  .logo {
+    margin-bottom: 20px;
+  }
+  
+  .formContainer {
+    background-color: #7D0A0A;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-family: 'Baloo 2', sans-serif;
+    color: #EAD196;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    display: none;
+  }
+  
+  .input {
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: #EAD196;
+    color: #7D0A0A;
+  }
+  
+  .input::placeholder {
+    color: #7D0A0A;
+  }
+  
+  .signInButton {
+    padding: 10px 20px;
+    background-color: #EAD196;
+    color: #7D0A0A;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    align-self: center;
+    width: auto;
+    margin-top: 30px;
+  }
+  
+  .signInButton:hover {
+    background-color: #d3b877;
+  }
+  

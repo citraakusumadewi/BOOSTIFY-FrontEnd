@@ -1,0 +1,40 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: #7D0A0A;
+    gap: 0.5rem;
+}
+
+.footerText {
+    color: #EAD196;
+    text-align: center;
+}
+
+.footerLinks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.footerLink {
+    color: #EAD196;
+}
+
+.footerIcon {
+    height: 1rem;
+}
+
+.logoContainer {
+    margin-top: 0.1rem;
+}
+
+.logo {
+    height: 2rem;
+}
