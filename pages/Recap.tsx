@@ -1,10 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Recap.module.css';
 import HomeNav from '../components/HomeNav';
-import Footer from '../components/footer';
+import Footer from '../components/Footer';
 
-const Recap = () => {
+interface AttendanceItem {
+  assisstant_code: string; // Assistant Code
+  name: string;
+  totalAttendance: number;
+}
+
+const Recap: React.FC = () => {
   const [filterOpen, setFilterOpen] = useState(false);
+  const [attendanceData, setAttendanceData] = useState<AttendanceItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleFilter = () => {
@@ -28,13 +39,65 @@ const Recap = () => {
     };
   }, [filterOpen]);
 
-  const attendanceData = [
-    { code: 'CIT', name: 'Citra Kusumadewi Sribawono', points: 107, rank: 1, medal: '/gold-medal.png' },
-    { code: 'KNP', name: 'Rizki Nugroho Firdaus', points: 90, rank: 3, medal: '/bronze-medal.png' },
-    { code: 'LIA', name: 'Aulia Ramadhani', points: 99, rank: 2, medal: '/silver-medal.png' },
-    { code: 'MMA', name: 'Mitchel Mohammad Affandi', points: 77, rank: 4 },
-    { code: 'CIT', name: 'Citra Kusumadewi Sribawono', points: 50, rank: 5 },
-  ];
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const response = await fetch(`https://73n0gdqw-3000.asse.devtunnels.ms/api/recap?page=${currentPage}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch attendance data');
+          }
+
+          const data = await response.json();
+          console.log('Fetched data:', data);
+
+          setAttendanceData(data.payload);
+          setTotalPages(data.totalPages); // Assuming the API returns totalPages
+          setLoading(false);
+        } catch (error: any) {
+          setError(error.message);
+          setLoading(false);
+        }
+      } else {
+        setError('No authentication token found');
+        setLoading(false);
+      }
+    };
+
+    fetchAttendanceData();
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -42,17 +105,23 @@ const Recap = () => {
       <main className={styles.main}>
         <h2 className={styles.heading}>ATTENDANCE RECAP</h2>
         <div className={styles.recap}>
-          {attendanceData.slice(0, 3).map((attendee, index) => (
-            <div key={index} className={`${styles.recapItem} ${styles[`rank${attendee.rank}`]}`}>
-              <div className={`${styles.badge} ${styles[`rank${attendee.rank}`]}`}>
-                {attendee.rank <= 3 && (
-                  <img src={attendee.medal} alt={`${attendee.code} medal`} className={styles.medalIcon} />
-                )}
-                <span>{attendee.code}</span>
+          {Array.isArray(attendanceData) && attendanceData.slice(0, 3).map((attendee, index) => {
+            const rankClass = index === 0 ? styles.rank1 : index === 1 ? styles.rank2 : styles.rank3;
+            const medalIcon = index === 0 
+              ? '/gold-medal.png'
+              : index === 1
+              ? '/silver-medal.png'
+              : '/bronze-medal.png';
+            return (
+              <div key={index} className={`${styles.recapItem} ${rankClass}`}>
+                <img src={medalIcon} alt="medal" className={styles.medalIcon} />
+                <div className={styles.badge}>
+                  <span>{attendee.assisstant_code}</span> {/* Assistant Code */}
+                </div>
+                <p className={styles.points}>{attendee.totalAttendance}</p> {/* Total Attendance */}
               </div>
-              <p className={styles.points}>{attendee.points}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className={styles.filter}>
           <button onClick={toggleFilter} className={styles.filterButton}>Filter</button>
@@ -72,20 +141,27 @@ const Recap = () => {
           {attendanceData.map((attendee, index) => (
             <div key={index} className={styles.card}>
               <div className={styles.left}>
-                <h3>{attendee.code}</h3>
-                <p>{attendee.name}</p>
+                <h3 className={styles.bold}>{attendee.assisstant_code}</h3> {/* Assistant Code */}
+                <p className={styles.bold}>{attendee.name}</p> {/* Name in bold */}
               </div>
               <div className={styles.right}>
                 <div className={styles.pointsCard}>
-                  <p>{attendee.points}</p>
+                  <p>{attendee.totalAttendance}</p> {/* Total Attendance */}
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div className={styles.pagination}>
-          <button className={styles.pageButton}>PAGE 1</button>
-          <button className={styles.arrowButton}>▶</button>
+          {/* <button onClick={handlePreviousPage} className={styles.arrowButton} disabled={currentPage === 1}>
+            ◀
+          </button> */}
+          <button className={styles.pageButton} disabled>
+            PAGE {currentPage} of {totalPages}
+          </button>
+          <button onClick={handleNextPage} className={styles.arrowButton} disabled={currentPage === totalPages}>
+            ▶
+          </button>
         </div>
       </main>
       <Footer />

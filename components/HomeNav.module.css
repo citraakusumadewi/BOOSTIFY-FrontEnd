@@ -63,9 +63,13 @@
 .userAvatar {
     background-color: #EAD196;
     color: #7D0A0A;
-    padding: 10px 10px;
-    border-radius: 50%;
+    width: 50px;  /* Ukuran lingkaran */
+    height: 50px; /* Ukuran lingkaran */
+    border-radius: 50%; /* Membuat lingkaran */
     font-size: 16px;
     font-weight: bold;
-    text-align: center;
+    display: flex;
+    align-items: center; /* Pusatkan teks secara vertikal */
+    justify-content: center; /* Pusatkan teks secara horizontal */
+    text-align: center; /* Memastikan teks berada di tengah */
 }

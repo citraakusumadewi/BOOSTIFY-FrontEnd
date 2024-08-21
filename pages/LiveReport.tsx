@@ -7,7 +7,7 @@ interface AttendanceItem {
   id: number;
   assisstant_code: string;
   name: string;
-  formattedTime: string;
+  time: string;
 }
 
 interface ApiResponse {
@@ -25,10 +25,23 @@ const LiveReport: React.FC = () => {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch('https://c8ec-103-233-100-230.ngrok-free.app/'); // Replace with your Ngrok URL
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          throw new Error('No authentication token found');
+        }
+
+        const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/attendances', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
+
         const data: ApiResponse = await response.json();
         setAttendanceData(data.assistances);
       } catch (error: any) {
@@ -40,6 +53,26 @@ const LiveReport: React.FC = () => {
 
     fetchAttendanceData();
   }, []);
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    };
+    return new Date(dateString).toLocaleTimeString(undefined, options);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -61,7 +94,8 @@ const LiveReport: React.FC = () => {
               <div className={styles.attendanceName}>{item.name}</div>
             </div>
             <div>
-              <div className={styles.attendanceDate}>{item.formattedTime}</div>
+              <div className={styles.attendanceDate}>{formatDate(item.time)}</div>
+              <div className={styles.attendanceTime}>{formatTime(item.time)}</div>
             </div>
           </div>
         ))}

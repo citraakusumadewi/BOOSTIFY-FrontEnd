@@ -89,7 +89,7 @@ const HomeNav: React.FC = () => {
               className={styles.userAvatar}
               style={{ backgroundImage: avatarUrl ? `url(${avatarUrl})` : undefined }}
             >
-              {!avatarUrl && assistantCode ? assistantCode.charAt(0) : null}
+              {!avatarUrl && assistantCode ? assistantCode : null}
             </div>
           </a>
         </nav>

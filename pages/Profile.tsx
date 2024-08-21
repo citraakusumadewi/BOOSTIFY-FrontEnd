@@ -1,38 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeNav from '../components/HomeNav'; 
 import Footer from '../components/Footer';
 import styles from './Profile.module.css';
 
 type AttendanceItem = {
-    date: string;
     time: string;
+    rawTime: string;
 };
 
 type ProfileProps = {
-    name: string;
-    attendanceHistory: AttendanceItem[];
+    name?: string;
+    attendanceHistory?: AttendanceItem[];
 };
 
-const Profile: React.FC<ProfileProps> = ({ name, attendanceHistory }) => {
+const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+};
+
+const Profile: React.FC<ProfileProps> = () => {
+    const [profileData, setProfileData] = useState<any>(null);
+
+    const fetchProfileData = async () => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            try {
+                const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/personalrec', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setProfileData(data.payload); // Set the fetched data into state
+            } catch (error: any) {
+                console.error('Failed to fetch profile:', error.message);
+            }
+        } else {
+            console.warn('No token found');
+        }
+    };
+
+    useEffect(() => {
+        fetchProfileData();
+    }, []);
+
     return (
         <div className={styles.container}>
             <HomeNav />
-            
+
             <main className={styles.main}>
                 <div className={styles.profile}>
                     <div className={styles.avatar}>
-                        <img src="/user.png" alt="User" className={styles.avatarImage} />
+                        <div className={styles.avatarText}>{profileData?.assistanceCode || 'N/A'}</div>
                     </div>
-                    <h1 className={styles.name}>{name}</h1>
+                    <h1 className={styles.name}>{profileData?.name || 'Loading...'}</h1>
                 </div>
                 <section className={styles.attendanceHistory}>
                     <h2>Attendance history</h2>
-                    {attendanceHistory.map((item, index) => (
-                        <div key={index} className={styles.historyItem}>
-                            <span>{item.date}</span>
-                            <span>{item.time}</span>
-                        </div>
-                    ))}
+                    {profileData?.attendancesTime && profileData.attendancesTime.length > 0 ? (
+                        profileData.attendancesTime.map((item: AttendanceItem, index: number) => (
+                            <div key={index} className={styles.historyItem}>
+                                <span className={styles.time}>{item.time}</span>
+                                <span className={styles.rawTime}>{formatTime(item.rawTime)}</span>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No attendance history available</p>
+                    )}
                 </section>
             </main>
 
@@ -42,57 +86,3 @@ const Profile: React.FC<ProfileProps> = ({ name, attendanceHistory }) => {
 };
 
 export default Profile;
-
-export async function getServerSideProps() {
-    try {
-        // Fetch data from the API endpoint
-        const res = await fetch('https://edeb-103-233-100-230.ngrok-free.app/api/profile');
-        if (!res.ok) {
-            throw new Error('Failed to fetch');
-        }
-        const data = await res.json();
-
-        // Extract relevant data from the response
-        const payload = data.payload || {};
-        const name = payload.name || '';
-        const attendancesTime = payload.attendancesTime || [];
-
-        // Map attendancesTime to match AttendanceItem type with formatted date and time
-        const attendanceHistory = attendancesTime.map((item: { rawTime: string }) => {
-            const dateObj = new Date(item.rawTime);
-
-            // Format date to include weekday, day, month, and year
-            const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                weekday: 'long',  // Full name of the day (e.g., Thursday)
-                day: 'numeric',    // Numeric day (e.g., 15)
-                month: 'long',     // Full month name (e.g., August)
-                year: 'numeric'    // Full year (e.g., 2024)
-            }).format(dateObj);
-
-            // Format time as hours and minutes (AM/PM)
-            const formattedTime = new Intl.DateTimeFormat('en-GB', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true
-            }).format(dateObj);
-
-            return { date: formattedDate, time: formattedTime };
-        });
-
-        // Return the fetched data as props
-        return {
-            props: {
-                name,
-                attendanceHistory,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return {
-            props: {
-                name: '',
-                attendanceHistory: [],
-            },
-        };
-    }
-}

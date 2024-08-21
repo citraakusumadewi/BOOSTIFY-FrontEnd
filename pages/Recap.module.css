@@ -1,6 +1,11 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
 .main {
     flex: 1;
-    padding: 50px 20px;
+    padding: 20px 20px;
     text-align: center;
 }
   
@@ -12,79 +17,70 @@
 }
   
 .recap {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: repeat(2, auto); /* Two rows for rank items */
+    grid-template-columns: repeat(3, 1fr); /* Three columns for layout */
+    gap: 5px !important; /* Decrease gap to bring items closer */
+    justify-items: center; /* Center items horizontally */
     margin-bottom: 60px;
-    align-items: flex-start;
-    gap: 50px;
 }
-  
+
 .recapItem {
     text-align: center;
     color: #7D0A0A;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-  
+
+.rank1 {
+    grid-row: 1; /* Gold medal in the first row */
+    grid-column: 2; /* Centered in the middle column */
+}
+
+.rank2 {
+    grid-row: 2; /* Silver medal in the second row */
+    grid-column: 1; /* Left column */
+    margin-top: -15px !important;
+}
+
+.rank3 {
+    grid-row: 2; /* Bronze medal in the second row */
+    grid-column: 3; /* Right column */
+    margin-top: -15px !important;
+}
+
 .badge {
-    background-color: #EAD196;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    background-color: #EAD196; /* Light color for the badge */
+    width: 100px; /* Size of the badge */
+    height: 100px;
+    border-radius: 50%; /* Circular shape */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 28px;
+    font-size: 24px; /* Font size for assistant code */
     font-weight: bold;
     position: relative;
+    z-index: 5;
 }
-  
-.rank1 {
-    order: 1;
-    transform: translate(80px, -20px);
-}
-  
-.rank2 {
-    order: 2;
-    transform: translate(-90px, 30px);
-}
-  
-.rank3 {
-    order: 3;
-    transform: translate(-10px, 30px);
-}
-  
-.star {
+
+.medalIcon {
     position: absolute;
-    top: -15px;
-    right: -15px;
-    font-size: 20px;
-    color: #FFCF00;
+    top: -20px; /* Position above the badge */
+    left: calc(50% - 20px); /* Center horizontally above the badge */
+    width: 40px; /* Size of the medal icon */
+    height: 40px; /* Size of the medal icon */
+    z-index: 10;
+    object-fit: contain;
 }
-  
+
+
 .points {
-    font-size: 24px;
+    font-size: 35px; /* Font size for total attendance */
     font-weight: bold;
-    color: #4A4A4A;
-    margin-top: 20px;
-    position: relative;
-}
-  
-.rank1 .points {
-    position: relative;
-    top: -30px;
-    left: 80px;
-}
-  
-.rank2 .points {
-    position: relative;
-    top: 15px;
-    left: -90px;
-}
-  
-.rank3 .points {
-    position: relative;
-    top: 15px;
-    right: 10px;
+    color: #3F3C38;
+    margin-top: 5px; /* Space above points */
 }
   
 .filter {
@@ -101,7 +97,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    color: #4A4A4A;
+    color: #3F3C38;
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -131,7 +127,7 @@
   
 .dropdown li {
     font-size: 14px;
-    color: #4A4A4A;
+    color: #3F3C38;
     cursor: pointer;
     padding: 5px 0;
 }
@@ -144,7 +140,7 @@
     margin: 0 auto;
     max-width: 600px;
 }
-  
+
 .card {
     background-color: #EAD196;
     display: flex;
@@ -218,13 +214,3 @@
     color: #EAD196;
     text-align: center;
 }
-
-
-.medalIcon {
-    position: absolute;
-    top: 10px;
-    left: -10px;
-    width: 40px;
-    height: 50px;
-  }
-  
