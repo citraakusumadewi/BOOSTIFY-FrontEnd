@@ -60,16 +60,29 @@
     cursor: pointer;
 }
 
+/* Add these styles to your CSS module to style the assistant code inside the avatar */
 .userAvatar {
-    background-color: #EAD196;
-    color: #7D0A0A;
-    width: 50px;  /* Ukuran lingkaran */
-    height: 50px; /* Ukuran lingkaran */
-    border-radius: 50%; /* Membuat lingkaran */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EAD196; /* Fallback color if no avatar image */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     font-size: 16px;
     font-weight: bold;
-    display: flex;
-    align-items: center; /* Pusatkan teks secara vertikal */
-    justify-content: center; /* Pusatkan teks secara horizontal */
-    text-align: center; /* Memastikan teks berada di tengah */
-}
+    color: #7D0A0A;
+    text-align: center;
+  }
+  
+  .assistantCode {
+    font-size: 14px;
+    font-weight: bold;
+    color: #7D0A0A;
+  }
+
+  .userName {
+    font-size: 15px;
+    font-weight: bold;
+    color: #7D0A0A;
+  }

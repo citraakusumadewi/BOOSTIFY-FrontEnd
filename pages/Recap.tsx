@@ -14,8 +14,8 @@ const Recap: React.FC = () => {
   const [attendanceData, setAttendanceData] = useState<AttendanceItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1); // Default to page 1
+  const [totalPages, setTotalPages] = useState<number>(8);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleFilter = () => {
@@ -60,7 +60,7 @@ const Recap: React.FC = () => {
           console.log('Fetched data:', data);
 
           setAttendanceData(data.payload);
-          setTotalPages(data.totalPages); // Assuming the API returns totalPages
+          setTotalPages(data.pagination.totalPages); // Update total pages from the response
           setLoading(false);
         } catch (error: any) {
           setError(error.message);
@@ -99,69 +99,101 @@ const Recap: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  // Data for first page's rank section
+  const rankedData = attendanceData.slice(0, 3);
+
+  // Data for cards (showing a maximum of 5 cards per page)
+  const cardData = attendanceData.slice(3);
+
   return (
     <div className="min-h-screen flex flex-col">
       <HomeNav />
       <main className={styles.main}>
         <h2 className={styles.heading}>ATTENDANCE RECAP</h2>
-        <div className={styles.recap}>
-          {Array.isArray(attendanceData) && attendanceData.slice(0, 3).map((attendee, index) => {
-            const rankClass = index === 0 ? styles.rank1 : index === 1 ? styles.rank2 : styles.rank3;
-            const medalIcon = index === 0 
-              ? '/gold-medal.png'
-              : index === 1
-              ? '/silver-medal.png'
-              : '/bronze-medal.png';
-            return (
-              <div key={index} className={`${styles.recapItem} ${rankClass}`}>
-                <img src={medalIcon} alt="medal" className={styles.medalIcon} />
-                <div className={styles.badge}>
-                  <span>{attendee.assisstant_code}</span> {/* Assistant Code */}
-                </div>
-                <p className={styles.points}>{attendee.totalAttendance}</p> {/* Total Attendance */}
-              </div>
-            );
-          })}
-        </div>
-        <div className={styles.filter}>
-          <button onClick={toggleFilter} className={styles.filterButton}>Filter</button>
-          {filterOpen && (
-            <div ref={dropdownRef} className={styles.dropdown}>
-              <p>Sort By:</p>
-              <ul>
-                <li onClick={toggleFilter}>Day</li>
-                <li onClick={toggleFilter}>Month</li>
-                <li onClick={toggleFilter}>Year</li>
-                <li onClick={toggleFilter}>Assistant Code</li>
-              </ul>
+        {currentPage === 1 ? (
+          // First page specific layout
+          <div>
+            <div className={styles.recap}>
+              {rankedData.map((attendee, index) => {
+                const rankClass = index === 0 ? styles.rank1 : index === 1 ? styles.rank2 : styles.rank3;
+                const medalIcon = index === 0 
+                  ? '/gold-medal.png'
+                  : index === 1
+                  ? '/silver-medal.png'
+                  : '/bronze-medal.png';
+                return (
+                  <div key={index} className={`${styles.recapItem} ${rankClass}`}>
+                    <img src={medalIcon} alt="medal" className={styles.medalIcon} />
+                    <div className={styles.badge}>
+                      <span>{attendee.assisstant_code}</span> {/* Assistant Code */}
+                    </div>
+                    <p className={styles.points}>{attendee.totalAttendance}</p> {/* Total Attendance */}
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </div>
-        <div className={styles.attendanceList}>
-          {attendanceData.map((attendee, index) => (
-            <div key={index} className={styles.card}>
-              <div className={styles.left}>
-                <h3 className={styles.bold}>{attendee.assisstant_code}</h3> {/* Assistant Code */}
-                <p className={styles.bold}>{attendee.name}</p> {/* Name in bold */}
-              </div>
-              <div className={styles.right}>
-                <div className={styles.pointsCard}>
-                  <p>{attendee.totalAttendance}</p> {/* Total Attendance */}
+            <div className={styles.filter}>
+              <button onClick={toggleFilter} className={styles.filterButton}>Filter</button>
+              {filterOpen && (
+                <div ref={dropdownRef} className={styles.dropdown}>
+                  <p>Sort By:</p>
+                  <ul>
+                    <li onClick={toggleFilter}>Day</li>
+                    <li onClick={toggleFilter}>Month</li>
+                    <li onClick={toggleFilter}>Year</li>
+                    <li onClick={toggleFilter}>Assistant Code</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+            <div className={styles.attendanceList}>
+              {attendanceData.map((attendee, index) => (
+                <div key={index} className={styles.card}>
+                  <div className={styles.left}>
+                    <h3 className={styles.bold}>{attendee.assisstant_code}</h3> {/* Assistant Code */}
+                    <p className={styles.bold}>{attendee.name}</p> {/* Name in bold */}
+                  </div>
+                  <div className={styles.right}>
+                    <div className={styles.pointsCard}>
+                      <p>{attendee.totalAttendance}</p> {/* Total Attendance */}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          // Other pages layout
+          <div className={styles.attendanceList}>
+            {attendanceData.map((attendee, index) => (
+              <div key={index} className={styles.card}>
+                <div className={styles.left}>
+                  <h3 className={styles.bold}>{attendee.assisstant_code}</h3> {/* Assistant Code */}
+                  <p className={styles.bold}>{attendee.name}</p> {/* Name in bold */}
+                </div>
+                <div className={styles.right}>
+                  <div className={styles.pointsCard}>
+                    <p>{attendee.totalAttendance}</p> {/* Total Attendance */}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
         <div className={styles.pagination}>
-          {/* <button onClick={handlePreviousPage} className={styles.arrowButton} disabled={currentPage === 1}>
-            ◀
-          </button> */}
+          {currentPage > 1 && (
+            <button onClick={handlePreviousPage} className={styles.arrowButton}>
+              ◀
+            </button>
+          )}
           <button className={styles.pageButton} disabled>
-            PAGE {currentPage} of {totalPages}
+            PAGE {currentPage}
           </button>
-          <button onClick={handleNextPage} className={styles.arrowButton} disabled={currentPage === totalPages}>
-            ▶
-          </button>
+          {currentPage < totalPages && (
+            <button onClick={handleNextPage} className={styles.arrowButton}>
+              ▶
+            </button>
+          )}
         </div>
       </main>
       <Footer />

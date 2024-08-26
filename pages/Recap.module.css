@@ -10,56 +10,53 @@
 }
   
 .heading {
-    font-size: 32px;
+    font-size: 45px;
     font-weight: bold;
     color: #4A4A4A;
     margin-bottom: 100px;
+    margin-top: 100px;
 }
   
 .recap {
-    display: grid;
-    grid-template-rows: repeat(2, auto); /* Two rows for rank items */
-    grid-template-columns: repeat(3, 1fr); /* Three columns for layout */
-    gap: 5px !important; /* Decrease gap to bring items closer */
-    justify-items: center; /* Center items horizontally */
+    position: relative;
+    height: 250px; /* Atur tinggi yang cukup untuk menampung semua item */
     margin-bottom: 60px;
 }
 
 .recapItem {
     text-align: center;
     color: #7D0A0A;
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .rank1 {
-    grid-row: 1; /* Gold medal in the first row */
-    grid-column: 2; /* Centered in the middle column */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .rank2 {
-    grid-row: 2; /* Silver medal in the second row */
-    grid-column: 1; /* Left column */
-    margin-top: -15px !important;
+    top: 150px;
+    left: 25%; /* Posisikan lebih ke tengah */
 }
 
 .rank3 {
-    grid-row: 2; /* Bronze medal in the second row */
-    grid-column: 3; /* Right column */
-    margin-top: -15px !important;
+    top: 150px;
+    right: 25%; /* Posisikan lebih ke tengah */
 }
 
 .badge {
     background-color: #EAD196; /* Light color for the badge */
-    width: 100px; /* Size of the badge */
-    height: 100px;
+    width: 150px; /* Size of the badge */
+    height: 150px;
     border-radius: 50%; /* Circular shape */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px; /* Font size for assistant code */
+    font-size: 35px; /* Font size for assistant code */
     font-weight: bold;
     position: relative;
     z-index: 5;
@@ -67,17 +64,17 @@
 
 .medalIcon {
     position: absolute;
-    top: -20px; /* Position above the badge */
-    left: calc(50% - 20px); /* Center horizontally above the badge */
-    width: 40px; /* Size of the medal icon */
-    height: 40px; /* Size of the medal icon */
+    top: -10px; /* Position above the badge */
+    left: calc(-10% - 0px); /* Center horizontally above the badge */
+    width: 80px; /* Size of the medal icon */
+    height: 80px; /* Size of the medal icon */
     z-index: 10;
     object-fit: contain;
 }
 
 
 .points {
-    font-size: 35px; /* Font size for total attendance */
+    font-size: 40px; /* Font size for total attendance */
     font-weight: bold;
     color: #3F3C38;
     margin-top: 5px; /* Space above points */
@@ -85,7 +82,8 @@
   
 .filter {
     text-align: right;
-    margin-bottom: 20px;
+    margin-top: 200px;
+    margin-bottom: 30px;
     position: relative;
     display: inline-block;
     justify-content: flex-end;
@@ -146,7 +144,7 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    margin: 10px 0;
+    margin: 20px 0px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -171,35 +169,49 @@
 }
   
 .pagination {
-    margin-top: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+    margin: 20px 0;
+  }
   
-.pageButton {
-    background-color: #7D0A0A;
-    color: #EAD196;
+  .arrowButton {
+    background-color: #7e0907; /* Warna merah tua */
     border: none;
+    color: #f0d2a2; /* Warna teks kekuningan */
+    padding: 5px 10px;
+    border-radius: 10px; /* Membuat tombol berbentuk lingkaran */
+    cursor: pointer;
+    margin: 10px 10px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .arrowButton:hover {
+    background-color: #a50c0c; /* Warna saat hover */
+  }
+  
+  .arrowButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .pageButton {
+    background-color: #7e0907; /* Warna merah tua */
+    border: none;
+    color: #f0d2a2; /* Warna teks kekuningan */
     padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
+    border-radius: 20px; /* Membuat tombol berbentuk elips */
     font-weight: bold;
-    margin-right: 10px;
-}
+    margin: 0 10px;
+    font-size: 1.2rem;
+  }
   
-.arrowButton {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    color: #7D0A0A;
-    cursor: pointer;
-}
+  .pageButton:disabled {
+    opacity: 1;
+    cursor: default;
+  }
   
-.pageButton:hover, .arrowButton:hover {
-    background-color: #660707;
-}
-
 .pointsCard {
     background-color: #7D0A0A;
     border-radius: 10px;

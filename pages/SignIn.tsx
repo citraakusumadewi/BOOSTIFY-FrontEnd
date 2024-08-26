@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 import styles from './SignIn.module.css';
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const [assistantCode, setAssistantCode] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -13,37 +14,45 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
+    if (!assistantCode || !password) {
+      setError('Assistant Code and Password are required');
+      setLoading(false);
+      return;
+    }
+  
     try {
-      const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        mode: 'cors',
-      });
+      const response = await fetch('https://boostify-back-end.vercel.app/api/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    assistant_code: assistantCode,
+    password: password,
+  }),
+});
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+      const result = await response.json();
+      if (response.ok && result.token?.token) {
+        localStorage.setItem('authToken', result.token.token);
+        router.push('/HomePage');
+      } else {
+        setError(result.message || 'Invalid credentials');
       }
-
-      const data = await response.json();
-      const token = data.token.token;
-
-      // Store token and userName in localStorage
-      localStorage.setItem('authToken', token);
-      localStorage.setItem('userName', email); // Assuming email is the username
-
-      router.push('/HomePage');
-    } catch (error: any) {
-      setError(`Error: ${error.message}`);
-      console.error('Login failed:', error);
+    } catch (err) {
+      console.error('Error:', err);
+      setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
+  };  
+
+  const handleAssistantCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase();
+    setAssistantCode(value);
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
@@ -53,28 +62,36 @@ const SignIn: React.FC = () => {
         <h2 className={styles.title}>Sign In to Your Account</h2>
         <form className={styles.form} onSubmit={handleSignIn}>
           <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>Email</label>
+            <label htmlFor="assistantCode" className={styles.label}>Assistant Code</label>
             <input
-              type="email"
-              id="email"
+              type="text"
+              id="assistantCode"
               className={styles.input}
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Assistant Code"
+              value={assistantCode}
+              onChange={handleAssistantCodeChange}
               required
             />
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="password" className={styles.label}>Password</label>
-            <input
-              type="password"
-              id="password"
-              className={styles.input}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className={styles.passwordContainer}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                className={styles.input}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <img
+                src={showPassword ? '/eye-slash.png' : '/eye.png'}
+                alt="Toggle Password Visibility"
+                className={styles.eyeIcon}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
           </div>
           {error && <div className={styles.error}>{error}</div>}
           <button type="submit" className={styles.signInButton} disabled={loading}>

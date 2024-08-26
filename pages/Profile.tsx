@@ -29,7 +29,7 @@ const Profile: React.FC<ProfileProps> = () => {
         const token = localStorage.getItem('authToken');
         if (token) {
             try {
-                const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/personalrec', {
+                const response = await fetch('https://boostify-back-end.vercel.app/api/personalrec', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

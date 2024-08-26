@@ -21,16 +21,18 @@ const LiveReport: React.FC = () => {
   const [attendanceData, setAttendanceData] = useState<AttendanceItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
-    const fetchAttendanceData = async () => {
+    const fetchAttendanceData = async (page: number) => {
       try {
         const token = localStorage.getItem('authToken');
         if (!token) {
           throw new Error('No authentication token found');
         }
 
-        const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/attendances', {
+        const response = await fetch(`https://73n0gdqw-3000.asse.devtunnels.ms/api/attendances?page=${page}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -44,6 +46,7 @@ const LiveReport: React.FC = () => {
 
         const data: ApiResponse = await response.json();
         setAttendanceData(data.assistances);
+        setTotalPages(data.totalPages);
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -51,8 +54,8 @@ const LiveReport: React.FC = () => {
       }
     };
 
-    fetchAttendanceData();
-  }, []);
+    fetchAttendanceData(currentPage);
+  }, [currentPage]);
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -72,6 +75,18 @@ const LiveReport: React.FC = () => {
       hour12: true,
     };
     return new Date(dateString).toLocaleTimeString(undefined, options);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
   };
 
   if (loading) {
@@ -101,8 +116,25 @@ const LiveReport: React.FC = () => {
         ))}
       </div>
       <div className={styles.pagination}>
-        <button className={styles.pageButton}>PAGE 1</button>
-        <button className={styles.arrowButton}>▶</button>
+        {currentPage > 1 && (
+          <button 
+            className={styles.arrowButton} 
+            onClick={handlePreviousPage}
+          >
+            ◀
+          </button>
+        )}
+        <button className={styles.pageButton} disabled>
+          PAGE {currentPage}
+        </button>
+        {currentPage < totalPages && (
+          <button 
+            className={styles.arrowButton} 
+            onClick={handleNextPage}
+          >
+            ▶
+          </button>
+        )}
       </div>
       <Footer />
     </div>

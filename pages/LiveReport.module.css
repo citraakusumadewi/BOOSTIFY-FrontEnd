@@ -4,12 +4,12 @@
 }
 
 .title {
-  font-size: 36px;
+  font-size: 45px;
   font-weight: bold;
-  margin-bottom: 70px;
+  margin-bottom: 100px;
   color: #515151;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 100px;
 }
 
 .attendanceList {
@@ -65,7 +65,7 @@
   background-color: #7D0A0A;
   color: #EAD196;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
@@ -82,4 +82,48 @@
 
 .pageButton:hover, .arrowButton:hover {
   background-color: #660707;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0; /* Adjust spacing around pagination */
+}
+
+.arrowButton {
+  background-color: #7e0907; /* Dark red color */
+  border: none;
+  color: #f0d2a2; /* Light yellowish text */
+  padding: 5px 10px; /* Adjusted padding for uniformity */
+  border-radius: 10px; /* Fully rounded button */
+  cursor: pointer;
+  margin: 10px 10px; /* Spacing between buttons */
+  font-size: 1.2rem; /* Increase icon size */
+}
+
+.pageButton {
+  background-color: #7e0907; /* Dark red color */
+  border: none;
+  color: #f0d2a2; /* Light yellowish text */
+  padding: 10px 30px; /* More padding for the text button */
+  border-radius: 20px; /* Rounded corners */
+  font-weight: bold;
+  margin: 0 10px; /* Spacing between buttons */
+}
+
+.pageButton:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+/* Add hover effects for interactivity */
+.arrowButton:hover,
+.pageButton:hover {
+  background-color: #9c1111; /* Slightly lighter red on hover */
+}
+
+.arrowButton:disabled {
+  background-color: #7e0907; /* Same color, no hover effect */
+  cursor: not-allowed; /* Disabled cursor style */
 }

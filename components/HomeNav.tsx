@@ -9,7 +9,6 @@ const HomeNav: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [assistantCode, setAssistantCode] = useState<string | null>(null);
   const router = useRouter();
-  const { token } = router.query;
 
   useEffect(() => {
     // Retrieve userName and token from localStorage
@@ -18,23 +17,20 @@ const HomeNav: React.FC = () => {
 
     const fetchAvatar = async () => {
       const token = localStorage.getItem('authToken');
-      console.log('Token:', token);
       if (token) {
         try {
-          const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/avatar', {
+          const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
             },
           });
-
+    
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-
+    
           const data = await response.json();
-          console.log('Fetched Avatar Data:', data);
-
           // Extract the assistantCode and set avatar URL
           setAssistantCode(data.assistantCode);
           setAvatarUrl(data.avatarUrl || null);
@@ -44,8 +40,8 @@ const HomeNav: React.FC = () => {
       } else {
         console.warn('No token found');
       }
-    };
-
+    };    
+    
     fetchAvatar();
   }, []);
 
@@ -54,7 +50,6 @@ const HomeNav: React.FC = () => {
       // Remove token and userName from localStorage
       localStorage.removeItem('authToken');
       localStorage.removeItem('userName');
-      console.log('Sign out successful');
       router.push('/SignIn');
     } catch (error: any) {
       console.error('Sign out failed:', error.message);
@@ -62,7 +57,6 @@ const HomeNav: React.FC = () => {
       setShowPopup(false);
     }
   };
-
 
   return (
     <div className={styles.container}>
@@ -89,7 +83,11 @@ const HomeNav: React.FC = () => {
               className={styles.userAvatar}
               style={{ backgroundImage: avatarUrl ? `url(${avatarUrl})` : undefined }}
             >
-              {!avatarUrl && assistantCode ? assistantCode : null}
+              {userName && (
+                <span className={styles.userNameInsideAvatar}>
+                  {userName} {/* Display the first letter of the userName */}
+                </span>
+              )}
             </div>
           </a>
         </nav>
