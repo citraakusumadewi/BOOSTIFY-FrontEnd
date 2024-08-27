@@ -60,7 +60,6 @@
     cursor: pointer;
 }
 
-/* Add these styles to your CSS module to style the assistant code inside the avatar */
 .userAvatar {
     display: flex;
     align-items: center;
@@ -73,16 +72,16 @@
     font-weight: bold;
     color: #7D0A0A;
     text-align: center;
-  }
-  
-  .assistantCode {
+}
+
+.assistantCode {
     font-size: 14px;
     font-weight: bold;
     color: #7D0A0A;
-  }
+}
 
-  .userName {
+.userName {
     font-size: 15px;
     font-weight: bold;
     color: #7D0A0A;
-  }
+}

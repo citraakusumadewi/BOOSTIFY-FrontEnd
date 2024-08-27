@@ -11,46 +11,61 @@ const HomeNav: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('authToken'); // Retrieve the token from localStorage
-      if (token) {
-        try {
-          const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${JSON.parse(token)}`, // Use the token for authorization
-              'Content-Type': 'application/json',
-            },
-          });
-    
-          if (!response.ok) {
-            if (response.status === 401) {
-              // Token invalid, redirect to login
-              localStorage.removeItem('authToken');
-              router.push('/SignIn');
-            } else {
-              const errorText = await response.text();
-              throw new Error(`Network response was not ok: ${errorText}`);
+      // Ambil data dari localStorage
+      const authDataString = localStorage.getItem('authData');
+      console.log('Retrieved authData from localStorage:', authDataString);
+  
+      if (authDataString) {
+        // Parse data dari string menjadi objek
+        const authData = JSON.parse(authDataString);
+  
+        // Ambil token dari authData
+        const token = authData.token.token; // Sesuaikan dengan struktur data Anda
+        console.log('Extracted token:', token);
+  
+        if (token) {
+          try {
+            const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            });
+  
+            if (!response.ok) {
+              if (response.status === 401) {
+                console.warn('Token invalid, redirecting to SignIn');
+                localStorage.removeItem('authData');
+                router.push('/SignIn');
+              } else {
+                const errorText = await response.text();
+                throw new Error(`Network response was not ok: ${errorText}`);
+              }
             }
+  
+            const data = await response.json();
+            console.log('Fetched user data:', data);
+            setUserName(data.name);
+            setAssistantCode(data.assisstant_code);
+          } catch (error) {
+            console.error('Failed to fetch user data:', error);
           }
-    
-          const data = await response.json();
-          setUserName(data.name); // Set the user's name
-          setAssistantCode(data.assisstant_code); // Set the assistant code
-        } catch (error) {
-          console.error('Failed to fetch user data:', error);
+        } else {
+          console.warn('No token found in authData');
         }
       } else {
-        console.warn('No token found');
+        console.warn('No authData found');
       }
     };
-    
+  
     fetchUserData();
-  }, []);  
-
+  }, [router]);
+  
   const handleSignOut = async () => {
     try {
       localStorage.removeItem('authToken');
-      localStorage.removeItem('userName');
+      console.log('Sign out successful, redirecting to SignIn');
       router.push('/SignIn');
     } catch (error) {
       console.error('Sign out failed:', error);
@@ -71,29 +86,27 @@ const HomeNav: React.FC = () => {
           </a>
           <a href="/About" className={styles.navLink}>About</a>
           <a href="/Team" className={styles.navLink}>Our Team</a>
-          {userName ? (
-            <>
-              <span className={styles.userName}>{userName}</span>
-              <a href="#" onClick={() => setShowPopup(true)} className={styles.signOut}>Sign Out</a>
-            </>
-          ) : (
-            <a href="/SignIn" className={styles.signIn}>Sign In</a>
-          )}
-          <a href="/Profile" className={styles.userAvatarButton}>
-            <div className={styles.userAvatar}>
-              {assistantCode && (
-                <span className={styles.assistantCodeInsideAvatar}>
-                  {assistantCode}
-                </span>
-              )}
-            </div>
-          </a>
+          <div className={styles.userSection}>
+            {userName && (
+              <>
+                <span className={styles.userName}>{userName}</span>
+                <a href="#" onClick={() => setShowPopup(true)} className={styles.signOut}>Sign Out</a>
+              </>
+            )}
+            <a href="/Profile" className={styles.userAvatarButton}>
+              <div className={styles.userAvatar}>
+                {assistantCode && (
+                  <span className={styles.assistantCode}>{assistantCode}</span>
+                )}
+              </div>
+            </a>
+          </div>
         </nav>
       </header>
-  
+
       {showPopup && <SignOut onClose={() => setShowPopup(false)} onSignOut={handleSignOut} />}
     </div>
-  );  
+  );
 };
 
 export default HomeNav;

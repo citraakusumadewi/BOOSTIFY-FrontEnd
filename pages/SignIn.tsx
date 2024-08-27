@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, useSession, getSession } from 'next-auth/react';
 import { DefaultSession } from 'next-auth';
 import styles from './SignIn.module.css';
 
-// Extend the DefaultSession type to include the token
+// Extend the DefaultSession type to include the id and token
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+
 interface CustomSession extends DefaultSession {
-  user: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    token?: string; // Add the token field here
-  };
+  user: CustomUser;
 }
 
 const SignIn: React.FC = () => {
@@ -21,37 +24,39 @@ const SignIn: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { data: session } = useSession() as { data: CustomSession }; // Cast to CustomSession
+  
+  const { data: session } = useSession() as { data: CustomSession }; // Casting to CustomSession
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
-    if (!assistantCode) {
-      setError('Assistant Code is required');
-      setLoading(false);
-      return;
-    }
-  
+
     const result = await signIn('credentials', {
       redirect: false,
       username: assistantCode,
       password,
     });
-  
+
     setLoading(false);
-  
+
     if (result?.error) {
       setError('Invalid credentials');
     } else {
-      // Save token to localStorage as a string
+      // Get the latest session after sign-in
+      const session = await getSession() as CustomSession; // Ensure type casting here
       if (session?.user?.token) {
-        localStorage.setItem('authToken', JSON.stringify(session.user.token));
+        const userData = {
+          id: session.user.id,
+          name: session.user.name,
+          assistant_code: session.user.email,
+          token: session.user.token,
+        };
+        localStorage.setItem('authData', JSON.stringify(userData));
       }
       router.push('/HomePage');
     }
-  };  
+  };
 
   const handleAssistantCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase();

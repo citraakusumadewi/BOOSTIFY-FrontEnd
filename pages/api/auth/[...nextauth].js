@@ -36,15 +36,19 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.token = user.token; // Pastikan ini benar
+        token.id = user.id;           // Perbarui `id`
+        token.token = user.token;     // Perbarui `token`
       }
       return token;
-    },    
+    },
     async session({ session, token }) {
-      session.user = token;
+      session.user = {
+        id: token.id,
+        name: token.name,
+        email: token.email,
+        token: token.token,
+      };
       return session;
-    }    
-  },
-  secret: process.env.NEXTAUTH_SECRET,
+    }
+  }
 });
