@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
 import styles from './SignIn.module.css';
+
+// Extend the DefaultSession type to include the token
+interface CustomSession extends DefaultSession {
+  user: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    token?: string; // Add the token field here
+  };
+}
 
 const SignIn: React.FC = () => {
   const [assistantCode, setAssistantCode] = useState<string>('');
@@ -9,42 +21,35 @@ const SignIn: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { data: session } = useSession() as { data: CustomSession }; // Cast to CustomSession
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
   
-    if (!assistantCode || !password) {
-      setError('Assistant Code and Password are required');
+    if (!assistantCode) {
+      setError('Assistant Code is required');
       setLoading(false);
       return;
     }
   
-    try {
-      const response = await fetch('https://boostify-back-end.vercel.app/api/auth/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    assistant_code: assistantCode,
-    password: password,
-  }),
-});
-
-      const result = await response.json();
-      if (response.ok && result.token?.token) {
-        localStorage.setItem('authToken', result.token.token);
-        router.push('/HomePage');
-      } else {
-        setError(result.message || 'Invalid credentials');
+    const result = await signIn('credentials', {
+      redirect: false,
+      username: assistantCode,
+      password,
+    });
+  
+    setLoading(false);
+  
+    if (result?.error) {
+      setError('Invalid credentials');
+    } else {
+      // Save token to localStorage as a string
+      if (session?.user?.token) {
+        localStorage.setItem('authToken', JSON.stringify(session.user.token));
       }
-    } catch (err) {
-      console.error('Error:', err);
-      setError('An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
+      router.push('/HomePage');
     }
   };  
 

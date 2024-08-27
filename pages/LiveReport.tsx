@@ -32,7 +32,7 @@ const LiveReport: React.FC = () => {
           throw new Error('No authentication token found');
         }
 
-        const response = await fetch(`https://73n0gdqw-3000.asse.devtunnels.ms/api/attendances?page=${page}`, {
+        const response = await fetch(`https://boostify-back-end.vercel.app/api/attendances?page=${page}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

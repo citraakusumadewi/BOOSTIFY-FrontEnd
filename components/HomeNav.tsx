@@ -6,53 +6,54 @@ import SignOut from './SignOut/SignOut';
 const HomeNav: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [assistantCode, setAssistantCode] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Retrieve userName and token from localStorage
-    const name = localStorage.getItem('userName');
-    setUserName(name);
-
-    const fetchAvatar = async () => {
-      const token = localStorage.getItem('authToken');
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('authToken'); // Retrieve the token from localStorage
       if (token) {
         try {
           const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${JSON.parse(token)}`, // Use the token for authorization
+              'Content-Type': 'application/json',
             },
           });
     
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            if (response.status === 401) {
+              // Token invalid, redirect to login
+              localStorage.removeItem('authToken');
+              router.push('/SignIn');
+            } else {
+              const errorText = await response.text();
+              throw new Error(`Network response was not ok: ${errorText}`);
+            }
           }
     
           const data = await response.json();
-          // Extract the assistantCode and set avatar URL
-          setAssistantCode(data.assistantCode);
-          setAvatarUrl(data.avatarUrl || null);
-        } catch (error: any) {
-          console.error('Failed to fetch avatar:', error.message);
+          setUserName(data.name); // Set the user's name
+          setAssistantCode(data.assisstant_code); // Set the assistant code
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
         }
       } else {
         console.warn('No token found');
       }
-    };    
+    };
     
-    fetchAvatar();
-  }, []);
+    fetchUserData();
+  }, []);  
 
   const handleSignOut = async () => {
     try {
-      // Remove token and userName from localStorage
       localStorage.removeItem('authToken');
       localStorage.removeItem('userName');
       router.push('/SignIn');
-    } catch (error: any) {
-      console.error('Sign out failed:', error.message);
+    } catch (error) {
+      console.error('Sign out failed:', error);
     } finally {
       setShowPopup(false);
     }
@@ -79,23 +80,20 @@ const HomeNav: React.FC = () => {
             <a href="/SignIn" className={styles.signIn}>Sign In</a>
           )}
           <a href="/Profile" className={styles.userAvatarButton}>
-            <div
-              className={styles.userAvatar}
-              style={{ backgroundImage: avatarUrl ? `url(${avatarUrl})` : undefined }}
-            >
-              {userName && (
-                <span className={styles.userNameInsideAvatar}>
-                  {userName} {/* Display the first letter of the userName */}
+            <div className={styles.userAvatar}>
+              {assistantCode && (
+                <span className={styles.assistantCodeInsideAvatar}>
+                  {assistantCode}
                 </span>
               )}
             </div>
           </a>
         </nav>
       </header>
-
+  
       {showPopup && <SignOut onClose={() => setShowPopup(false)} onSignOut={handleSignOut} />}
     </div>
-  );
+  );  
 };
 
 export default HomeNav;

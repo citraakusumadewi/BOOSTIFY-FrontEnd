@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // If no token exists and user tries to access a protected route, redirect to login
-  if (!token && pathname.startsWith('/protected')) {
+  if (!token && pathname.startsWith('/homepage')) {
     return NextResponse.redirect(new URL('/SignIn', req.url));
   }
 
@@ -18,5 +18,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/protected/:path*'],
+  matcher: ['/homepage'],
 };

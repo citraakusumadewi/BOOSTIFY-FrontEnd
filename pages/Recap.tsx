@@ -44,7 +44,7 @@ const Recap: React.FC = () => {
       const token = localStorage.getItem('authToken');
       if (token) {
         try {
-          const response = await fetch(`https://73n0gdqw-3000.asse.devtunnels.ms/api/recap?page=${currentPage}`, {
+          const response = await fetch(`https://boostify-back-end.vercel.app/api/recap?page=${currentPage}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
