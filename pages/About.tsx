@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Navbar from '../components/Navbar';
-import Homenav from '../components/HomeNav';
+import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './About.module.css';
 
 const About: React.FC = () => {
+  const { data: session, status } = useSession(); // Use useSession to check authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Simulasikan pengecekan status autentikasi, ini bisa berupa pengecekan token, cookie, dll.
-    const token = localStorage.getItem('token'); // Misalnya, token disimpan di localStorage
-    if (token) {
+    // Update isAuthenticated state based on session status
+    if (status === 'authenticated') {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
-  }, []);
+  }, [status]);
 
   return (
     <div>
-      {/* Tampilkan Homenav jika sudah sign in, jika tidak, tampilkan Navbar */}
-      {isAuthenticated ? <Homenav /> : <Navbar />}
+      {/* Conditionally render HomeNav or Navbar based on isAuthenticated state */}
+      {isAuthenticated ? <HomeNav /> : <Navbar />}
       <div className={styles.container}>
         <h1 className={styles.title}>FEATURES</h1>
 
