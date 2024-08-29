@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { signIn, useSession, getSession } from 'next-auth/react';
 import { DefaultSession } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import styles from './SignIn.module.css';
 
 // Extend the DefaultSession type to include the id and token
@@ -27,6 +28,23 @@ const SignIn: React.FC = () => {
   
   const { data: session } = useSession() as { data: CustomSession }; // Casting to CustomSession
 
+  useEffect(() => {
+    if (session?.user?.token) {
+      const userData = {
+        id: session.user.id,
+        name: session.user.name,
+        assistant_code: session.user.email,
+        token: session.user.token,
+      };
+      localStorage.setItem('authData', JSON.stringify(userData));
+  
+      // Redirect after a small delay to ensure session is established
+      setTimeout(() => {
+        router.push('/HomePage');
+      }, 1000); // Increase the delay to 1 second      
+    }
+  }, [session]);
+  
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -41,7 +59,7 @@ const SignIn: React.FC = () => {
     setLoading(false);
 
     if (result?.error) {
-      setError('Invalid credentials');
+      setError('Invalid Password');
     } else {
       // Get the latest session after sign-in
       const session = await getSession() as CustomSession; // Ensure type casting here
@@ -52,6 +70,7 @@ const SignIn: React.FC = () => {
           assistant_code: session.user.email,
           token: session.user.token,
         };
+        // Save the session data in localStorage for persistence
         localStorage.setItem('authData', JSON.stringify(userData));
       }
       router.push('/HomePage');

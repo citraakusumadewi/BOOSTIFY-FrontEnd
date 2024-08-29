@@ -85,4 +85,4 @@ const Profile: React.FC<ProfileProps> = () => {
     );
 };
 
-export default Profile;
+export default Profile; // Apply the withAuth HOC to Profile;

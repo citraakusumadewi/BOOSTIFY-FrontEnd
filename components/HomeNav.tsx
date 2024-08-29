@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from './HomeNav.module.css';
 import SignOut from './SignOut/SignOut';
+import { signOut } from 'next-auth/react';
 
 const HomeNav: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -64,9 +65,11 @@ const HomeNav: React.FC = () => {
   
   const handleSignOut = async () => {
     try {
-      localStorage.removeItem('authToken');
-      console.log('Sign out successful, redirecting to SignIn');
-      router.push('/SignIn');
+      localStorage.removeItem('authData');
+      localStorage.removeItem('nextauth.message');
+      console.log('Sign out successful, session and token removed');
+  
+      await signOut({ callbackUrl: '/SignIn' });
     } catch (error) {
       console.error('Sign out failed:', error);
     } finally {
