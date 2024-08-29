@@ -2,31 +2,6 @@ import React from 'react';
 import styles from './HomePage.module.css';
 import Footer from '../components/Footer';
 import HomeNav from '../components/HomeNav';
-import { getSession } from 'next-auth/react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  try {
-    const session = await getSession(context);
-    if (!session) {
-      return {
-        redirect: {
-          destination: '/SignIn',
-          permanent: false,
-        },
-      };
-    }
-    return { props: { session } };
-  } catch (error) {
-    console.error('Error in getServerSideProps:', error);
-    return {
-      redirect: {
-        destination: '/SignIn',
-        permanent: false,
-      },
-    };
-  }
-};
 
 const HomePage: React.FC = () => {
   return (
