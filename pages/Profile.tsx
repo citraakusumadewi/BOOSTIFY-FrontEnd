@@ -8,11 +8,6 @@ type AttendanceItem = {
     rawTime: string;
 };
 
-type ProfileProps = {
-    name?: string;
-    attendanceHistory?: AttendanceItem[];
-};
-
 const formatTime = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString('en-US', {
@@ -22,10 +17,36 @@ const formatTime = (dateString: string) => {
     });
 };
 
-const Profile: React.FC<ProfileProps> = () => {
+const Profile: React.FC = () => {
     const [profileData, setProfileData] = useState<any>(null);
+    const [attendanceData, setAttendanceData] = useState<AttendanceItem[]>([]);
 
-    const fetchProfileData = async () => {
+    const fetchUserData = async () => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            try {
+                const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setProfileData(data); // Set the fetched user data into state
+            } catch (error: any) {
+                console.error('Failed to fetch user data:', error.message);
+            }
+        } else {
+            console.warn('No token found');
+        }
+    };
+
+    const fetchAttendanceData = async () => {
         const token = localStorage.getItem('authToken');
         if (token) {
             try {
@@ -41,9 +62,9 @@ const Profile: React.FC<ProfileProps> = () => {
                 }
 
                 const data = await response.json();
-                setProfileData(data.payload); // Set the fetched data into state
+                setAttendanceData(data.attendancesTime); // Set the fetched attendance data into state
             } catch (error: any) {
-                console.error('Failed to fetch profile:', error.message);
+                console.error('Failed to fetch attendance data:', error.message);
             }
         } else {
             console.warn('No token found');
@@ -51,7 +72,8 @@ const Profile: React.FC<ProfileProps> = () => {
     };
 
     useEffect(() => {
-        fetchProfileData();
+        fetchUserData();
+        fetchAttendanceData();
     }, []);
 
     return (
@@ -61,14 +83,18 @@ const Profile: React.FC<ProfileProps> = () => {
             <main className={styles.main}>
                 <div className={styles.profile}>
                     <div className={styles.avatar}>
-                        <div className={styles.avatarText}>{profileData?.assistanceCode || 'N/A'}</div>
+                        <div className={styles.avatarCircle}>
+                            {profileData?.assisstant_code || 'N/A'}
+                        </div>
+                        {profileData?.name && (
+                            <h1 className={styles.name}>{profileData.name}</h1>
+                        )}
                     </div>
-                    <h1 className={styles.name}>{profileData?.name || 'Loading...'}</h1>
                 </div>
                 <section className={styles.attendanceHistory}>
-                    <h2>Attendance history</h2>
-                    {profileData?.attendancesTime && profileData.attendancesTime.length > 0 ? (
-                        profileData.attendancesTime.map((item: AttendanceItem, index: number) => (
+                    <h2>Attendance History</h2>
+                    {attendanceData.length > 0 ? (
+                        attendanceData.map((item: AttendanceItem, index: number) => (
                             <div key={index} className={styles.historyItem}>
                                 <span className={styles.time}>{item.time}</span>
                                 <span className={styles.rawTime}>{formatTime(item.rawTime)}</span>
@@ -85,4 +111,4 @@ const Profile: React.FC<ProfileProps> = () => {
     );
 };
 
-export default Profile; // Apply the withAuth HOC to Profile;
+export default Profile;

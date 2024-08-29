@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import Navbar from '../components/Navbar';
+import HomeNav from '../components/HomeNav'; // Import HomeNav component
 import Footer from '../components/Footer';
 import styles from './LandingPage.module.css'; // Import file CSS
 
-const LandingPage = () => {
+const LandingPage: React.FC = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession(); // Get the session data
+  const [isLoading, setIsLoading] = useState(true); // State to handle loading
+
+  useEffect(() => {
+    if (status === 'loading') {
+      // Wait for session loading to finish
+      return;
+    }
+
+    if (session) {
+      // Redirect to HomePage if the user is already logged in
+      router.push('/HomePage');
+    } else {
+      // If not logged in, set loading to false
+      setIsLoading(false);
+    }
+  }, [session, status, router]);
+
+  if (isLoading) {
+    // Optionally render a loading spinner or message
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={`${styles.container} min-h-screen flex flex-col`}>
-      <Navbar />
-      
+      {session ? <HomeNav /> : <Navbar />}
+
       {/* Main Content */}
       <main className={`${styles.mainContent} flex flex-col lg:flex-row justify-between items-start my-16 gap-8 flex-grow px-4`}>
         {/* Text Section */}
@@ -30,7 +57,7 @@ const LandingPage = () => {
           <img src="/smile-image.png" alt="Smiling Face" className={`${styles.smileImage} w-8/4 max-w-xs md:max-w-sm`} />
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
