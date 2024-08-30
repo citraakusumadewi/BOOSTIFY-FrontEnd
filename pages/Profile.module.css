@@ -44,8 +44,8 @@
 
 .avatar {
     background-color: #F3EDC8;
-    width: 150px;
-    height: 150px;
+    width: 200px; /* Increase the width */
+    height: 200px; /* Increase the height */
     border-radius: 50%;
     margin: 0 auto 20px;
     margin-top: 50px;
