@@ -59,8 +59,8 @@
 /* Gaya untuk avatar */
 .avatar {
     background-color: #F3EDC8;
-    width: 150px;
-    height: 150px;
+    width: 200px; /* Increase the width */
+    height: 200px; /* Increase the height */
     border-radius: 50%;
     margin: 0 auto 20px;
     margin-top: 50px;
@@ -97,7 +97,7 @@
 }
 
 .name {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     color: #3F3C38;
     text-align: center;
@@ -122,81 +122,11 @@
     font-weight: bold;
 }
 
-.noHistoryText {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: left;
-    color: #BDBDBD;
+.time {
+    flex: 1; /* Adjust the flex properties if needed */
 }
 
-/* Mode gelap */
-.dark-mode .avatar {
-    background-color: #3F3C38;
-}
-
-.dark-mode .name {
-    color: #BDBDBD;
-}
-
-.dark-mode .attendanceHistory h2 {
-    color: #D7B66A;
-}
-
-.dark-mode .historyItem {
-    border-bottom: 1px solid #BDBDBD;
-    color: #BDBDBD;
-}
-
-.dark-mode .noHistoryText {
-    color: #BDBDBD; /* Warna terang untuk mode gelap */
-}  
-
-/* Mode terang */
-.light-mode .avatar {
-    background-color: #F3EDC8;
-}
-
-.light-mode .name {
-    color: #3F3C38;
-}
-
-.light-mode .attendanceHistory h2 {
-    color: #7D0A0A;
-}
-
-.light-mode .historyItem {
-    border-bottom: 1px solid #3F3C38;
-    color: #3F3C38;
-}
-
-.light-mode .noHistoryText {
-    color: #3F3C38; /* Warna gelap untuk mode terang */
-}
-
-/* Responsif */
-@media (max-width: 768px) {
-    .profile {
-        padding: 10px;
-    }
-
-    .avatar {
-        width: 120px;
-        height: 120px;
-    }
-
-    .name {
-        font-size: 20px;
-    }
-
-    .assistantCode {
-        font-size: 20px;
-    }
-
-    .attendanceHistory h2 {
-        font-size: 24px;
-    }
-
-    .historyItem {
-        font-size: 16px;
-    }
+.rawTime {
+    flex: 1; /* Adjust the flex properties if needed */
+    text-align: right; /* Align rawTime to the right */
 }
