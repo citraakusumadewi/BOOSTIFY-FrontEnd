@@ -1,26 +1,28 @@
 .container {
-    display: flex;
-    justify-content: center;
-    padding: 20px 40px;
-    background-color: #ffffff;
     width: 100%;
+    min-width: 100vh;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 1200px;
+    padding: 16px;
+    margin: 0; /* Sesuaikan margin */
+    width: 100%; /* Pastikan header juga mengambil seluruh lebar halaman */
 }
 
 .logo {
     height: 50px;
-    align-self: flex-start;
 }
 
-.dmlogo {
-    height: 1.5rem;
+.modeToggle img {
+    height: 28px;
+    transition: transform 0.3s ease;
+}
+
+.modeToggle img:hover {
+    transform: rotate(20deg);
 }
 
 .nav {
@@ -29,22 +31,28 @@
     gap: 20px;
 }
 
-.icon {
-    font-size: 18px;
-    color: #7D0A0A;
-}
-
-.navLink {
-    font-size: 16px;
-    color: #7D0A0A;
-    text-decoration: none;
-    font-weight: normal;
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    transition: all 0.3s ease;
 }
 
 .userSection {
     display: flex;
     align-items: center;
-    gap: 15px; /* Adjust this gap to control the spacing between Sign Out and avatar */
+    gap: 20px;
+}
+
+.navLink {
+    font-size: 16px;
+    color: #D7B66A;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navLink:hover {
+    color: #EAD196;
 }
 
 .signOut {
@@ -64,11 +72,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #EAD196; /* Fallback color if no avatar image */
+    background-color: #EAD196;
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #7D0A0A;
     text-align: center;
@@ -84,4 +92,80 @@
     font-size: 15px;
     font-weight: bold;
     color: #7D0A0A;
+}
+
+.light-mode {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.light-mode .navLink {
+    color: #7D0A0A;
+}
+
+.light-mode .userAvatar {
+    background-color: #EAD196;
+    color: #7D0A0A;
+}
+
+.dark-mode {
+    background-color: #0D0D0D;
+    color: #D7B66A;
+}
+
+.dark-mode .navLink {
+    color: #D7B66A;
+}
+
+.dark-mode .userName {
+    color: #D7B66A;
+}
+
+.dark-mode .signOut {
+    color: #D7B66A;
+}
+
+.dark-mode .userAvatar {
+    color: #D7B66A;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    gap: 4px;
+}
+
+.hamburgerLine {
+    width: 25px;
+    height: 3px;
+    background-color: #BDBDBD;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    .navLinks {
+        display: none;
+        position: absolute;
+        top: 90px;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        flex-direction: column;
+        padding: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        border-radius: 4px;
+        align-items: center;
+    }
+
+    .showMenu {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+    }
 }

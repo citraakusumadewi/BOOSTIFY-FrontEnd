@@ -4,25 +4,16 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #ffffff;
+  padding-top: 50px; 
+  padding-left: 40px;
 }
 
+/* Logo adjustments */
 .logo {
-  margin-bottom: 20px;
+  margin-bottom: 80px;
 }
 
-.formContainer {
-  background-color: #7D0A0A;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
+/* Title styles */
 .title {
   font-size: 24px;
   margin-bottom: 30px;
@@ -30,6 +21,7 @@
   color: #EAD196;
 }
 
+/* Form styling */
 .form {
   display: flex;
   flex-direction: column;
@@ -39,6 +31,7 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .label {
@@ -52,6 +45,7 @@
   font-size: 16px;
   background-color: #EAD196;
   color: #7D0A0A;
+  font-weight: bold;
   width: 100%;
 }
 
@@ -59,10 +53,12 @@
   color: #7D0A0A;
 }
 
+/* Password container and toggle button */
 .passwordContainer {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .eyeIcon {
@@ -81,11 +77,11 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: bold;
   transition: background-color 0.3s;
   align-self: center;
   width: auto;
   margin-top: 30px;
+  font-weight: bold;
 }
 
 .signInButton:hover {
@@ -95,4 +91,40 @@
 .error {
   color: red;
   margin-top: 10px;
+}
+
+/* General formContainer styles */
+.formContainer {
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+
+/* Dark mode styles */
+.dark-mode .formContainer {
+  background-color: #5B0A0A;
+}
+
+.dark-mode .title {
+  color: #BDBDBD;
+  font-weight: bold;
+}
+
+.dark-mode .input {
+  background-color: #D7B66A;
+  color: #5B0A0A;
+}
+
+.dark-mode .signInButton {
+  background-color: #D7B66A;
+  color: #5B0A0A;
+}
+
+.dark-mode .signInButton:hover {
+  background-color: #7b5703;
 }

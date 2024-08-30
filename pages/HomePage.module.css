@@ -1,12 +1,19 @@
+/* General Styles */
 .container {
-  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0 auto;
 }
 
 .mainContent {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* margin-top: 64px; */
+  margin-left: 20px;
+  margin-right: 20px;
   padding: 60px 40px;
   width: 100%;
   max-width: 1200px;
@@ -19,26 +26,29 @@
 
 .title {
   font-size: 36px;
-  color: #4C4C4C;
   margin-bottom: 20px;
   font-weight: bold;
+  padding-left: 30px;
+  width: 100%;
 }
 
 .description {
   font-size: 18px;
-  color: #4C4C4C;
   line-height: 1.5;
   text-align: justify;
+  padding-left: 30px;
+  width: 100%;
 }
 
 .imageContent {
   width: 50%;
   display: flex;
   justify-content: center;
+  padding-left: 70px;
 }
 
 .mainImage {
-  height: 15rem;
+  height: 15rem; /* Adjusted height */
 }
 
 .attendanceSection {
@@ -47,12 +57,10 @@
   align-items: center;
   padding: 60px 0;
   width: 100%;
-  /* background-color: #ffffff; */
 }
 
 .attendanceTitle {
   font-size: 32px;
-  color: #4C4C4C;
   margin-bottom: 40px;
   font-weight: bold;
 }
@@ -70,4 +78,123 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s;
+}
+
+/* Dark Mode Styles */
+.dark-mode .title {
+  color: #BDBDBD;
+}
+
+.dark-mode .description {
+  color: #BDBDBD;
+}
+
+.dark-mode .attendanceTitle {
+  color: #BDBDBD;
+}
+
+.dark-mode .attendanceButton {
+  background-color: #5B0A0A;
+  color: #D7B66A;
+}
+
+/* Light Mode Styles */
+.light-mode .title {
+  color: #3F3C38;
+}
+
+.light-mode .description {
+  color: #3F3C38;
+}
+
+.light-mode .attendanceTitle {
+  color: #3F3C38;
+}
+
+.light-mode .attendanceButton {
+  background-color: #7D0A0A;
+  color: #EAD196;
+}
+
+.light-mode .attendanceButton:hover {
+  background-color: #d3b877;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+    margin: 20px 10px;
+  }
+
+  .textContent {
+    width: 90%;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: 15px;
+    padding: 0;
+    width: 100%;
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
+
+  .mainImage {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: -20px;
+    transform: translateX(-18%);
+  }
+
+  .attendanceButton {
+    transform: translateX(5%);
+    width: 90%;
+    display: block;
+  }
+
+  .dark-mode .attendanceButton {
+    transform: translateX(5%);
+    width: 90%;
+    display: block;
+  }
+
+  .dark-mode .mainContent {
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 10px;
+  }
+
+  .dark-mode .textContent {
+    width: 90%;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .dark-mode .title {
+    font-size: 28px;
+    margin-bottom: 15px;
+    padding: 0;
+    width: 100%;
+  }
+
+  .dark-mode .description {
+    font-size: 16px;
+    line-height: 1.4;
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
 }

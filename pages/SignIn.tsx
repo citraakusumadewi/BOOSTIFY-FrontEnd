@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { signIn, useSession, getSession } from 'next-auth/react';
 import { DefaultSession } from 'next-auth';
 import styles from './SignIn.module.css';
+import { useTheme } from '../pages/ThemeContext';
 
 // Extend the DefaultSession type to include the id and token
 interface CustomUser {
@@ -24,7 +25,7 @@ const SignIn: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  
+  const { isDarkMode } = useTheme();
   const { data: session } = useSession() as { data: CustomSession }; // Casting to CustomSession
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -64,7 +65,7 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <div className={styles.logo}>
         <img src="/logo.png" alt="Boostify Logo" />
       </div>

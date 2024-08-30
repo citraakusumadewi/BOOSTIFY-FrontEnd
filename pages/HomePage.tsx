@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './HomePage.module.css';
 import Footer from '../components/Footer';
 import HomeNav from '../components/HomeNav';
+import { useTheme } from '../pages/ThemeContext';
 
 const HomePage: React.FC = () => {
+  const { isDarkMode } = useTheme();
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <HomeNav />
 
       <main className={styles.mainContent}>

@@ -4,9 +4,12 @@ import styles from './Team.module.css';
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
+import { useTheme } from '../pages/ThemeContext';
+
 
 const OurTeam: React.FC = () => {
   const { data: session, status } = useSession(); // Use status for better control
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     console.log('Session Data:', session);
@@ -14,15 +17,15 @@ const OurTeam: React.FC = () => {
   }, [session, status]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       {status === 'authenticated' ? <HomeNav /> : <Navbar />} {/* Conditionally render Navbar or HomeNav */}
 
-      <main className={styles.mainContent}>
-        <h1 className={styles.title}>RESEARCH DIVISION 22</h1>
+      <main className={`${styles.mainContent} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+        <h1 className={`${styles.title} ${isDarkMode ? styles['dark-mode'] : ''}`}>RESEARCH DIVISION 22</h1>
 
         <div className={styles.cardSection}>
           <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Fullstack</h2>
+            <h2 className={styles.cardTitle}>Backend</h2>
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
