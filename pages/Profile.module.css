@@ -160,75 +160,73 @@
     z-index: 1000;
 }
 
-/* Modal Styling */
 .modalContent {
     background-color: #fff;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 10px; /* Adjust border radius */
     text-align: center;
-    width: 300px;
+    width: 250px; /* Adjust width for the modal content */
+    position: relative;
   }
   
-  .modalContent h3 {
-    margin-bottom: 20px;
+.modalContent h3 {
+    margin-bottom: 10px;
     color: #3F3C38;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
   }
   
-  .fileLabel {
+.fileLabel {
     display: inline-block;
-    padding: 10px 20px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
+    padding: 5px 10px; /* Adjust padding */
+    color: #7D0A0A; /* Red text color for the file label */
     cursor: pointer;
     margin-bottom: 10px;
   }
   
-  .fileInput {
-    display: none;
-  }
-  
-  .noFileChosen {
-    margin: 10px 0;
+.noFileChosen {
+    display: inline-block; /* Display inline with the label */
     color: #777;
-    font-size: 14px;
+    font-size: 12px; /* Adjust font size */
+    margin-left: 5px; /* Add some space between label and this text */
   }
   
-  .buttonContainer {
+.buttonContainer {
     display: flex;
     justify-content: space-between;
+    margin-top: 15px; /* Add some space above the buttons */
   }
   
-  .deleteButton,
-  .uploadButton {
-    padding: 10px 20px;
+.deleteButton,
+.uploadButton {
+    padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 100px; /* Ensure both buttons have the same width */
+    font-size: 14px; /* Adjust font size */
   }
   
-  .deleteButton {
-    background-color: #D7B66A; /* Red color for delete */
-    color: #7D0A0A;
+.deleteButton {
+    background-color: #7D0A0A; /* Red background for delete */
+    color: #D7B66A; /* Gold text for delete button */
     font-weight: bold;
   }
   
-  .closeIcon {
+.uploadButton {
+    background-color: #D7B66A; /* Gold background for upload */
+    color: #7D0A0A; /* Red text for upload button */
+    font-weight: bold;
+  }
+  
+.closeIcon {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
+    top: 5px; /* Adjust position */
+    right: 5px; /* Adjust position */
+    font-size: 18px;
     font-weight: bold;
     background: none;
     border: none;
     cursor: pointer;
-    color: #333; /* Sesuaikan dengan warna yang diinginkan */
+    color: #333; /* Adjust color */
   }
-  
-  .uploadButton {
-    background-color: #D7B66A; /* Warna hijau untuk upload */
-    color: #7D0A0A;
-    font-weight: bold;
-  }
-  
