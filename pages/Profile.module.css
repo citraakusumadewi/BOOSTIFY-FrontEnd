@@ -230,3 +230,27 @@
     cursor: pointer;
     color: #333; /* Adjust color */
   }
+
+  .customFileLabel {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #D7B66A; /* Background color for the custom button */
+  color: #7D0A0A; /* Text color */
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hiddenFileInput {
+  display: none; /* Hides the native file input */
+}
+
+.customFileLabel span {
+  margin-right: 10px;
+}
+
+.noFileChosen {
+  color: #7D0A0A; /* Update this color to match your desired style */
+  font-size: 14px;
+  margin-top: 10px;
+}

@@ -25,36 +25,38 @@ const LiveReport: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
-    const fetchAttendanceData = async (page: number) => {
-      try {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-          throw new Error('No authentication token found');
+    const fetchAttendanceData = async () => {
+      const authDataString = localStorage.getItem('authData');
+      if (authDataString) {
+        try {
+          const authData = JSON.parse(authDataString);
+          const token = authData.token.token;
+
+          const response = await fetch(`https://boostify-back-end.vercel.app/api/attendances?page=${currentPage}`, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data: ApiResponse = await response.json();
+          setAttendanceData(data.assistances);
+          setTotalPages(data.totalPages);
+        } catch (error: any) {
+          console.error('Failed to fetch attendance data:', error.message);
+          setError(error.message);
+        } finally {
+          setLoading(false);
         }
-
-        const response = await fetch(`https://boostify-back-end.vercel.app/api/attendances?page=${page}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-
-        const data: ApiResponse = await response.json();
-        setAttendanceData(data.assistances);
-        setTotalPages(data.totalPages);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchAttendanceData(currentPage);
+    fetchAttendanceData();
   }, [currentPage]);
 
   const formatDate = (dateString: string) => {

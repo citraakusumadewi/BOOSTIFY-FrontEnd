@@ -222,9 +222,8 @@ const Profile: React.FC = () => {
                 onChange={handleFileChange}
                 className={styles.fileInput} 
               />
-              <span>Choose File</span>
             </label>
-            <p className={styles.noFileChosen}>No file chosen</p>
+            {/* <p className={styles.noFileChosen}>No file chosen</p> */}
             <div className={styles.buttonContainer}>
               <button className={styles.deleteButton} onClick={handleDeleteImage}>Delete Image</button>
               <button className={styles.uploadButton} onClick={() => setShowModal(false)}>Upload</button>
@@ -232,6 +231,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
       )}
+
       <Footer />
     </div>
   );

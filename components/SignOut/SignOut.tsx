@@ -13,7 +13,7 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
 
   const handleGoBack = () => {
     onClose(); // Close the popup
-    router.push('/HomePage'); // Redirect to the HomePage
+    router.back(); // Redirect to the HomePage
   };
 
   const handleSignOut = async () => {
@@ -37,7 +37,8 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
           if (response.ok) {
             console.log('Sign-out successful, removing token from localStorage...');
             localStorage.removeItem('authData'); // Clear the authData from localStorage
-            signOut({callbackUrl: '/'});
+            await signOut({ redirect: false }); // Menghindari redirect otomatis
+            router.push('/'); // Arahkan ke halaman utama setelah sign-out
           } else {
             console.error('Sign-out failed, response status:', response.status);
           }

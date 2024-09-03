@@ -11,7 +11,6 @@ const HomeNav: React.FC = () => {
   const [assistantCode, setAssistantCode] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-
   const { isDarkMode, toggleMode } = useTheme(); // Use theme context
 
   useEffect(() => {

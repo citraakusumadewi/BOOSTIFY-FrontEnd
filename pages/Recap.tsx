@@ -41,13 +41,16 @@ const Recap: React.FC = () => {
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
-      const token = localStorage.getItem('authToken');
-      if (token) {
+      const authDataString = localStorage.getItem('authData');
+      if (authDataString) {
         try {
+          const authData = JSON.parse(authDataString);
+          const token = authData.token.token;
+
           const response = await fetch(`https://boostify-back-end.vercel.app/api/recap?page=${currentPage}`, {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
