@@ -70,6 +70,22 @@
     overflow: hidden; /* Ensures the image fits within the circular avatar */
 }
 
+.pencilIcon {
+    position: absolute;
+    bottom: 20px; /* Sesuaikan posisi dari bawah */
+    right: 10px; /* Sesuaikan posisi dari kanan */
+    border-radius: 50%; /* Membuat ikon menjadi bulat */
+    padding: 5px; /* Menambahkan padding untuk memberikan ruang di sekitar ikon */
+    cursor: pointer;
+    width: 60px; /* Sesuaikan lebar ikon */
+    height: 50px; /* Sesuaikan tinggi ikon */
+}
+
+.avatarContainer {
+    position: relative;
+    display: inline-block;
+}
+
 .avatar img {
     width: 100%;
     height: 100%;
@@ -129,4 +145,41 @@
 .rawTime {
     flex: 1; /* Adjust the flex properties if needed */
     text-align: right; /* Align rawTime to the right */
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.modalContent h3 {
+    margin-bottom: 20px;
+}
+
+.modalContent input {
+    margin-bottom: 20px;
+}
+
+.modalContent button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
