@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './Profile.module.css';
@@ -27,13 +27,10 @@ const Profile: React.FC = () => {
 
   const fetchUserData = async () => {
     const authDataString = localStorage.getItem('authData');
-    console.log('Retrieved authData from localStorage:', authDataString);
-
     if (authDataString) {
       try {
         const authData = JSON.parse(authDataString);
-        const token = authData.token.token; // Adjusted to match your structure
-        console.log('Extracted token:', token);
+        const token = authData.token.token;
 
         const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
           method: 'GET',
@@ -48,29 +45,32 @@ const Profile: React.FC = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched user data:', data);
         setProfileData(data);
         setProfileImage(data.image_url || '/user.png');
       } catch (error: any) {
         console.error('Failed to fetch user data:', error.message);
       }
-    } else {
-      console.warn('No authData found');
     }
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Only JPG, JPEG, PNG, and HEIC formats are allowed.');
+        return;
+      }
+
       const authDataString = localStorage.getItem('authData');
       if (authDataString) {
         try {
           const authData = JSON.parse(authDataString);
           const token = authData.token.token;
-  
+
           const formData = new FormData();
           formData.append('image', file); // Match the key expected by multer
-  
+
           const response = await fetch('https://boostify-back-end.vercel.app/api/uploadImage', {
             method: 'PATCH',
             headers: {
@@ -78,21 +78,23 @@ const Profile: React.FC = () => {
             },
             body: formData,
           });
-  
+
           if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Failed to upload image: ${response.status} ${errorText}`);
           }
-  
+
           const data = await response.json();
+          const updatedImageUrl = data.updatedUser.imageUrl;
+
           setProfileData((prevState) => {
             if (!prevState) return null;
             return {
               ...prevState,
-              image_url: data.updatedUser.imageUrl, // Adjust based on the response structure
+              image_url: updatedImageUrl, // Use the updated image URL
             };
           });
-          setProfileImage(data.updatedUser.imageUrl);
+          setProfileImage(updatedImageUrl);
         } catch (error: any) {
           console.error('Failed to upload image:', error.message);
         }
@@ -106,7 +108,7 @@ const Profile: React.FC = () => {
       try {
         const authData = JSON.parse(authDataString);
         const token = authData.token.token;
-  
+
         const response = await fetch('https://boostify-back-end.vercel.app/api/deleteImage', {
           method: 'DELETE',
           headers: {
@@ -114,11 +116,11 @@ const Profile: React.FC = () => {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (!response.ok) {
           throw new Error('Failed to delete image');
         }
-  
+
         setProfileImage('/user.png');
         setProfileData((prevState) => {
           if (!prevState) return null;
@@ -136,14 +138,11 @@ const Profile: React.FC = () => {
 
   const fetchAttendanceData = async () => {
     const authDataString = localStorage.getItem('authData');
-    console.log('Retrieved authData from localStorage:', authDataString);
-  
     if (authDataString) {
       try {
         const authData = JSON.parse(authDataString);
         const token = authData.token.token;
-        console.log('Extracted token:', token);
-  
+
         const response = await fetch('https://boostify-back-end.vercel.app/api/personalrec', {
           method: 'GET',
           headers: {
@@ -151,22 +150,23 @@ const Profile: React.FC = () => {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Network response was not ok: ${response.status} ${errorText}`);
+          if (response.status === 404) {
+            setAttendanceData([]); // Set to an empty array to display "No attendance history available"
+          } else {
+            const errorText = await response.text();
+            throw new Error(`Network response was not ok: ${response.status} ${errorText}`);
+          }
+        } else {
+          const data = await response.json();
+          setAttendanceData(data.attendancesTime || []);
         }
-  
-        const data = await response.json();
-        console.log('Fetched attendance data:', data);
-        setAttendanceData(data.attendancesTime || []);
       } catch (error: any) {
         console.error('Failed to fetch attendance data:', error.message);
       }
-    } else {
-      console.warn('No authData found');
     }
-  };  
+  };
 
   useEffect(() => {
     fetchUserData();
@@ -210,14 +210,25 @@ const Profile: React.FC = () => {
       {showModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
+            <button className={styles.closeIcon} onClick={() => setShowModal(false)}>
+              &times;
+            </button>
             <h3>Edit Profile Picture</h3>
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleFileChange}
-            />
-            <button onClick={handleDeleteImage}>Delete Image</button>
-            <button onClick={() => setShowModal(false)}>Close</button>
+            
+            <label className={styles.fileLabel}>
+              <input 
+                type="file" 
+                accept="image/jpeg,image/jpg,image/png,image/heic" 
+                onChange={handleFileChange}
+                className={styles.fileInput} 
+              />
+              <span>Choose File</span>
+            </label>
+            <p className={styles.noFileChosen}>No file chosen</p>
+            <div className={styles.buttonContainer}>
+              <button className={styles.deleteButton} onClick={handleDeleteImage}>Delete Image</button>
+              <button className={styles.uploadButton} onClick={() => setShowModal(false)}>Upload</button>
+            </div>
           </div>
         </div>
       )}
