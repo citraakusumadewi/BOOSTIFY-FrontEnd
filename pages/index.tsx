@@ -1,13 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import Navbar from '../components/Navbar';
+import HomeNav from '../components/HomeNav'; // Import HomeNav component
 import Footer from '../components/Footer';
-import styles from './LandingPage.module.css';
+import styles from './LandingPage.module.css'; // Import file CSS
+import { useTheme } from '../pages/ThemeContext';
 
-const LandingPage = () => {
+const LandingPage: React.FC = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession(); // Get the session data
+  const [isLoading, setIsLoading] = useState(true); // State to handle loading
+  const { isDarkMode } = useTheme(); // Get the theme (dark/light mode)
+
+  useEffect(() => {
+    if (status === 'loading') {
+      // Wait for session loading to finish
+      return;
+    }
+
+    if (session) {
+      // Redirect to HomePage if the user is already logged in
+      router.push('/HomePage');
+    } else {
+      // If not logged in, set loading to false
+      setIsLoading(false);
+    }
+  }, [session, status, router]);
+
+  if (isLoading) {
+    // Optionally render a loading spinner or message
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className={styles.container}>
-      <Navbar />
-      
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']} min-h-screen flex flex-col`}>
+      {session ? <HomeNav /> : <Navbar />}
+
       {/* Main Content */}
       <main className={styles.mainContent}>
         {/* Text Section */}
@@ -17,9 +46,11 @@ const LandingPage = () => {
             This device is an attendance system based on facial recognition technology that requires users to smile as a sign of presence. With just a smile, your attendance is automatically recorded, enhancing the positive atmosphere in the workplace or school. Additionally, this device aims to boost people's enthusiasm and motivation to start their day with a smile, creating a more positive and productive environment.
           </p>
           <div>
-          <a href="/SignIn">
-            <button className={styles.attendanceButton}>See Your Attendance</button>
-          </a>
+            <a href="/SignIn">
+              <button className={styles.attendanceButton}>
+                See Your Attendance
+              </button>
+            </a>
           </div>
         </div>
 
@@ -28,7 +59,7 @@ const LandingPage = () => {
           <img src="/smile-image.png" alt="Smiling Face" className={styles.smileImage} />
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

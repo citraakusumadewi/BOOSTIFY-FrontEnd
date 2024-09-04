@@ -1,51 +1,71 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { signIn, useSession, getSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
 import styles from './SignIn.module.css';
+import { useTheme } from '../pages/ThemeContext';
+
+// Extend the DefaultSession type to include the id and token
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
+}
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const [assistantCode, setAssistantCode] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { isDarkMode } = useTheme();
+  const { data: session } = useSession() as { data: CustomSession }; // Casting to CustomSession
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch('https://73n0gdqw-3000.asse.devtunnels.ms/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        mode: 'cors',
-      });
+    const result = await signIn('credentials', {
+      redirect: false,
+      username: assistantCode,
+      password,
+    });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+    setLoading(false);
+
+    if (result?.error) {
+      setError('Invalid credentials');
+    } else {
+      // Get the latest session after sign-in
+      const session = await getSession() as CustomSession; // Ensure type casting here
+      if (session?.user?.token) {
+        const userData = {
+          id: session.user.id,
+          name: session.user.name,
+          assistant_code: session.user.email,
+          token: session.user.token,
+        };
+        localStorage.setItem('authData', JSON.stringify(userData));
       }
-
-      const data = await response.json();
-      const token = data.token.token;
-
-      // Store token and userName in localStorage
-      localStorage.setItem('authToken', token);
-      localStorage.setItem('userName', email); // Assuming email is the username
-
       router.push('/HomePage');
-    } catch (error: any) {
-      setError(`Error: ${error.message}`);
-      console.error('Login failed:', error);
-    } finally {
-      setLoading(false);
     }
   };
+
+  const handleAssistantCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase();
+    setAssistantCode(value);
+  };
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <div className={styles.logo}>
         <img src="/logo.png" alt="Boostify Logo" />
       </div>
@@ -53,28 +73,36 @@ const SignIn: React.FC = () => {
         <h2 className={styles.title}>Sign In to Your Account</h2>
         <form className={styles.form} onSubmit={handleSignIn}>
           <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>Email</label>
+            <label htmlFor="assistantCode" className={styles.label}>Assistant Code</label>
             <input
-              type="email"
-              id="email"
+              type="text"
+              id="assistantCode"
               className={styles.input}
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Assistant Code"
+              value={assistantCode}
+              onChange={handleAssistantCodeChange}
               required
             />
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="password" className={styles.label}>Password</label>
-            <input
-              type="password"
-              id="password"
-              className={styles.input}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className={styles.passwordContainer}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                className={styles.input}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <img
+                src={showPassword ? '/eye-slash.png' : '/eye.png'}
+                alt="Toggle Password Visibility"
+                className={styles.eyeIcon}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
           </div>
           {error && <div className={styles.error}>{error}</div>}
           <button type="submit" className={styles.signInButton} disabled={loading}>

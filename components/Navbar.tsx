@@ -1,46 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
+import { useTheme } from '../pages/ThemeContext';
 
 const Navbar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isDarkMode, toggleMode } = useTheme();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
       document.body.classList.toggle('dark-mode', savedTheme === 'dark');
     }
   }, []);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-    const newTheme = !isDarkMode ? 'dark' : 'light';
-    document.body.classList.toggle('dark-mode', !isDarkMode);
-    localStorage.setItem('theme', newTheme);
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+    console.log('Menu Toggled:', isMenuOpen); // Debugging log
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <div className={styles.logoContainer}>
         <a href="/">
           <img src="/logo.png" alt="Boostify Logo" className={styles.logo} />
         </a>
       </div>
-      <div className={styles.navbarContainer}>
-        <div className={styles.navLinks}>
-          {/* Dark mode toggle */}
+      <nav className={styles.navbarContainer}>
+        <button onClick={toggleMode} className={styles.modeToggle}>
           <img
-            src="/moon.png"
-            alt="Darkmode Logo"
-            className={styles.dmlogo}
-            onClick={toggleDarkMode}
+            src={isDarkMode ? "/light-mode-icon.png" : "/moon.png"}
+            alt={isDarkMode ? "Light Mode Icon" : "Dark Mode Icon"}
             style={{ cursor: 'pointer' }}
           />
-          <a href="/About" className={styles.navLink}>About</a>
-          <a href="/Team" className={styles.navLink}>Our Team</a>
-          <a href="/SignIn" className={styles.signIn}>Sign In</a>
-        </div>
-      </div>
+        </button>
+        {/* Hamburger Menu for small screens */}
+        <button className={styles.hamburger} onClick={handleMenuToggle}>
+          <span className={styles.hamburgerLine}></span>
+          <span className={styles.hamburgerLine}></span>
+          <span className={styles.hamburgerLine}></span>
+        </button>
+        {/* Navbar Links */}
+        <ul className={`${styles.navLinks} ${isMenuOpen ? styles.showMenu : ''}`}>
+          <li><a href="/About" className={styles.navLink}>About</a></li>
+          <li><a href="/Team" className={styles.navLink}>Our Team</a></li>
+          <li><a href="/SignIn" className={`${styles.navLink} ${styles.signIn}`}>Sign In</a></li>
+        </ul>
+      </nav>
     </header>
   );
 };

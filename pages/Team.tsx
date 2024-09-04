@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import styles from './Team.module.css';
 import Navbar from '../components/Navbar';
+import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
+import { useTheme } from '../pages/ThemeContext';
 
-const OurTeam = () => {
+
+const OurTeam: React.FC = () => {
+  const { data: session, status } = useSession(); // Use status for better control
+  const { isDarkMode } = useTheme();
+
+  useEffect(() => {
+    console.log('Session Data:', session);
+    console.log('Session Status:', status);
+  }, [session, status]);
+
   return (
-    <div className={styles.container}>
-      <Navbar />
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
+      {status === 'authenticated' ? <HomeNav /> : <Navbar />} {/* Conditionally render Navbar or HomeNav */}
 
-      <main className={styles.mainContent}>
-        <h1 className={styles.title}>RESEARCH DIVISION 22</h1>
+      <main className={`${styles.mainContent} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+        <h1 className={`${styles.title} ${isDarkMode ? styles['dark-mode'] : ''}`}>RESEARCH DIVISION 22</h1>
 
         <div className={styles.cardSection}>
           <div className={styles.card}>
@@ -17,13 +29,13 @@ const OurTeam = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MMA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>SZN</p>
               </div>
@@ -35,25 +47,25 @@ const OurTeam = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>CIT</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>LIA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>ATX</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>AFN</p>
               </div>
@@ -65,31 +77,31 @@ const OurTeam = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KNP</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>AKA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MFT</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KSF</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className='{styles.avatarImage}' />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>JIN</p>
               </div>

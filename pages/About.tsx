@@ -1,85 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Navbar from '../components/Navbar';
+import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './About.module.css';
+import FeatureCard from '@/components/FeatureCard';
+import { FaSmile, FaShieldAlt, FaChartLine, FaThumbsUp } from 'react-icons/fa';
+import { useTheme } from '../pages/ThemeContext';
+
 
 const About: React.FC = () => {
+  const { data: session, status } = useSession(); // Use useSession to check authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isDarkMode } = useTheme();
+
+  useEffect(() => {
+    // Update isAuthenticated state based on session status
+    if (status === 'authenticated') {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [status]);
+
   return (
-    <div>
-      <Navbar />
-      <div className={styles.container}>
-        <h1 className={styles.title}>FEATURES</h1>
+    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+      {/* Conditionally render HomeNav or Navbar based on isAuthenticated state */}
+      {isAuthenticated ? <HomeNav /> : <Navbar />}
+      
+      <main className={styles.main}>
+        <section className={`${styles.textCenter} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <h2>FEATURES</h2>
+        </section>
 
-        <div className={styles.featuresSection}>
-          <div className={styles.featureBox}>
-            <h2 className={styles.subTitle}>HOW DOES IT WORK?</h2>
-            <ul className={styles.featureList}>
-              <li>👤 Stand in front of Boostify</li>
-              <li>😊 Smile to the camera</li>
-              <li>✔ Presence completes when emoticon appears</li>
+        {/* First Section: How It Works */}
+        <section className={`${styles.section} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <div className={`${styles.card} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+            <h3>HOW DOES IT WORK?</h3>
+            <ul>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/standImg.png" alt="stand" className={styles.emoji} /> Stand in front of Boostify
+              </li>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/smileImg.png" alt="Smile" className={styles.emoji} /> Smile to the camera
+              </li>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/checkImg.png" alt="Check" className={styles.emoji} /> Presence completes when emoticon appears
+              </li>
             </ul>
           </div>
+          <img src="/boostify-device.png" alt="Boostify Device" className={styles.imgSmall} />
+        </section>
 
-          <div className={styles.imageBox}>
-            <img src="/front-view.png" alt="Boostify Device" className={styles.deviceImage} />
-          </div>
-        </div>
-
-        <div className={styles.featuresSection}>
-          <div className={styles.imageBox}>
-            <img src="/back-view.png" alt="Boostify Device" className={styles.deviceImage} />
-          </div>
-
-          <div className={styles.featureBox}>
-            <h2 className={styles.subTitle}>BOOSTIFY FEATURES</h2>
-            <ul className={styles.featureList}>
-              <li>▶ TFT Display</li>
-              <li>▶ Web Integration</li>
-              <li>▶ Speaker</li>
-              <li>▶ Anti Spoofing Protection</li>
+        {/* Second Section: Boostify Features */}
+        <section className={`${styles.section} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <img src="/boostify-device2.png" alt="Boostify Device2" className={styles.imgSmall} />
+          <div className={`${styles.card} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+            <h3>BOOSTIFY FEATURES</h3>
+            <ul>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/playImg.png" alt="Play" className={styles.emoji} /> TFT Display
+              </li>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Web Integration
+              </li>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Speaker
+              </li>
+              <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Anti Spoofing Protection
+              </li>
             </ul>
           </div>
-        </div>
+        </section>
 
-        <div className={styles.benefitsSection}>
-          <h2 className={styles.benefitTitle}>WHY CHOOSE BOOSTIFY?</h2>
-
-          <div className={styles.benefit}>
-            <span className={styles.benefitIcon}>😊</span>
-            <div>
-              <h3 className={styles.benefitSubTitle}>Happiness and Productivity</h3>
-              <p>Smiles have a positive effect on mood and productivity. BOOSTIFY integrates happiness in the attendance process.</p>
-            </div>
+        {/* Vertical Feature Cards */}
+        <section className={`${styles.featureCardsWrapper} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <div className={`${styles.featureCards} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+            <FeatureCard
+              title="Happiness and Productivity"
+              description="Smiles have a positive effect on mood and productivity. BOOSTIFY integrates happiness in the attendance process."
+              icon={<FaSmile size={30} color="#7D0A0A" />}
+            />
+            <FeatureCard
+              title="High Security"
+              description="Anti-spoofing system ensures the security of attendance data with advanced facial recognition technology."
+              icon={<FaShieldAlt size={30} color="#7D0A0A" />}
+            />
+            <FeatureCard
+              title="Ease of Monitoring"
+              description="Live reports and attendance data recap make it easy for management to monitor attendance in real-time."
+              icon={<FaChartLine size={30} color="#7D0A0A" />}
+            />
+            <FeatureCard
+              title="Positive Feedback"
+              description="A pleasant feedback voice makes the attendance process a positive and motivating experience."
+              icon={<FaThumbsUp size={30} color="#7D0A0A" />}
+            />
           </div>
+        </section>
+      </main>
 
-          <div className={styles.benefit}>
-            <span className={styles.benefitIcon}>🔒</span>
-            <div>
-              <h3 className={styles.benefitSubTitle}>High Security</h3>
-              <p>Anti-spoofing system ensures the security of attendance data with advanced facial recognition technology.</p>
-            </div>
-          </div>
-
-          <div className={styles.benefit}>
-            <span className={styles.benefitIcon}>📈</span>
-            <div>
-              <h3 className={styles.benefitSubTitle}>Ease of Monitoring</h3>
-              <p>Live reports and attendance data recap make it easy for management to monitor attendance in real-time.</p>
-            </div>
-          </div>
-
-          <div className={styles.benefit}>
-            <span className={styles.benefitIcon}>💬</span>
-            <div>
-              <h3 className={styles.benefitSubTitle}>Positive Feedback</h3>
-              <p>A pleasant feedback voice makes the attendance process a positive and motivating experience.</p>
-            </div>
-          </div>
-        </div>
-      </div>
       <Footer />
     </div>
   );
 };
+
 
 export default About;
