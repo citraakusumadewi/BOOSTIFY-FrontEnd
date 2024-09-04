@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn, useSession, getSession } from 'next-auth/react';
+import Image from 'next/image'; // Import Next.js Image component
 import { DefaultSession } from 'next-auth';
 import styles from './SignIn.module.css';
-import { useTheme } from '../pages/ThemeContext';
+import { useTheme } from '../styles/ThemeContext';
 
 // Extend the DefaultSession type to include the id and token
 interface CustomUser {
@@ -67,7 +68,7 @@ const SignIn: React.FC = () => {
   return (
     <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <div className={styles.logo}>
-        <img src="/logo.png" alt="Boostify Logo" />
+        <Image src="/logo.png" alt="Boostify Logo" width={100} height={50} />
       </div>
       <div className={styles.formContainer}>
         <h2 className={styles.title}>Sign In to Your Account</h2>
@@ -96,9 +97,10 @@ const SignIn: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <img
+              <Image
                 src={showPassword ? '/eye-slash.png' : '/eye.png'}
                 alt="Toggle Password Visibility"
+                width={20} height={20}
                 className={styles.eyeIcon}
                 onClick={() => setShowPassword(!showPassword)}
               />

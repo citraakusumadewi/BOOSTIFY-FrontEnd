@@ -1,6 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image'; // Import Next.js Image component
 import styles from './Footer.module.css';
-import { useTheme } from '../pages/ThemeContext';
+import { useTheme } from '../styles/ThemeContext';
 
 const Footer = () => {
   const { isDarkMode } = useTheme();
@@ -8,17 +10,21 @@ const Footer = () => {
   return (
     <footer className={`${styles.footer} ${isDarkMode ? styles['dark-mode'] : ''}`}>
       <div className={`${styles.footerLinks} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-        <a href="/About" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>About</a>
-        <a href="/Team" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>Team</a>
-        <a href="mailto:info@boostify.com" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-          <img src="/email-icon.png" alt="Email Icon" className={styles.footerIcon} />
-        </a>
-        <a href="https://www.linkedin.com/company/boostify" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-          <img src="/linkedin-icon.png" alt="LinkedIn Icon" className={styles.footerIcon} />
-        </a>
+        <Link href="/About" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          About
+        </Link>
+        <Link href="/Team" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          Team
+        </Link>
+        <Link href="mailto:info@boostify.com" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <Image src="/email-icon.png" alt="Email Icon" className={styles.footerIcon} width={24} height={24} />
+        </Link>
+        <Link href="https://www.linkedin.com/company/boostify" className={`${styles.footerLink} ${isDarkMode ? styles['dark-mode'] : ''}`}>
+          <Image src="/linkedin-icon.png" alt="LinkedIn Icon" className={styles.footerIcon} width={24} height={24} />
+        </Link>
       </div>
       <div className={styles.logoContainer}>
-        <img src="/Boostify-cps.png" alt="Boostify Logo" className={styles.logo} />
+        <Image src="/Boostify-cps.png" alt="Boostify Logo" className={styles.logo} width={100} height={50} />
       </div>
       <p className={`${styles.footerText} ${isDarkMode ? styles['dark-mode'] : ''}`}>© 2021 All Rights Reserved</p>
     </footer>

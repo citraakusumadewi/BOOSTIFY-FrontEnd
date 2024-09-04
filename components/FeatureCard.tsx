@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../pages/ThemeContext';
+import { useTheme } from '../styles/ThemeContext';
 import styles from './FeatureCard.module.css';
 
 interface FeatureCardProps {

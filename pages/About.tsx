@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import Image from 'next/image'; // Import Next.js Image component
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './About.module.css';
 import FeatureCard from '@/components/FeatureCard';
 import { FaSmile, FaShieldAlt, FaChartLine, FaThumbsUp } from 'react-icons/fa';
-import { useTheme } from '../pages/ThemeContext';
-
+import { useTheme } from '../styles/ThemeContext';
 
 const About: React.FC = () => {
   const { data: session, status } = useSession(); // Use useSession to check authentication
@@ -39,36 +40,36 @@ const About: React.FC = () => {
             <h3>HOW DOES IT WORK?</h3>
             <ul>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/standImg.png" alt="stand" className={styles.emoji} /> Stand in front of Boostify
+                <Image src="/standImg.png" alt="stand" className={styles.emoji} width={24} height={24} /> Stand in front of Boostify
               </li>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/smileImg.png" alt="Smile" className={styles.emoji} /> Smile to the camera
+                <Image src="/smileImg.png" alt="Smile" className={styles.emoji} width={24} height={24} /> Smile to the camera
               </li>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/checkImg.png" alt="Check" className={styles.emoji} /> Presence completes when emoticon appears
+                <Image src="/checkImg.png" alt="Check" className={styles.emoji} width={24} height={24} /> Presence completes when emoticon appears
               </li>
             </ul>
           </div>
-          <img src="/boostify-device.png" alt="Boostify Device" className={styles.imgSmall} />
+          <Image src="/boostify-device.png" alt="Boostify Device" className={styles.imgSmall} width={300} height={200} />
         </section>
 
         {/* Second Section: Boostify Features */}
         <section className={`${styles.section} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-          <img src="/boostify-device2.png" alt="Boostify Device2" className={styles.imgSmall} />
+          <Image src="/boostify-device2.png" alt="Boostify Device2" className={styles.imgSmall} width={300} height={200} />
           <div className={`${styles.card} ${isDarkMode ? styles['dark-mode'] : ''}`}>
             <h3>BOOSTIFY FEATURES</h3>
             <ul>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/playImg.png" alt="Play" className={styles.emoji} /> TFT Display
+                <Image src="/playImg.png" alt="Play" className={styles.emoji} width={24} height={24} /> TFT Display
               </li>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Web Integration
+                <Image src="/playImg.png" alt="Play" className={styles.emoji} width={24} height={24} /> Web Integration
               </li>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Speaker
+                <Image src="/playImg.png" alt="Play" className={styles.emoji} width={24} height={24} /> Speaker
               </li>
               <li className={`${styles.emojiColor} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-                <img src="/playImg.png" alt="Play" className={styles.emoji} /> Anti Spoofing Protection
+                <Image src="/playImg.png" alt="Play" className={styles.emoji} width={24} height={24} /> Anti Spoofing Protection
               </li>
             </ul>
           </div>
@@ -105,6 +106,5 @@ const About: React.FC = () => {
     </div>
   );
 };
-
 
 export default About;

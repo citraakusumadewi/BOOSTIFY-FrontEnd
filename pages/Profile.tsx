@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image'; // Import Next.js Image component
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './Profile.module.css';
-import { useTheme } from '../pages/ThemeContext';
+import { useTheme } from '../styles/ThemeContext';
 
 type AttendanceItem = {
   time: string;
@@ -180,11 +181,19 @@ const Profile: React.FC = () => {
         <div className={styles.profile}>
           <div className={styles.avatarContainer}>
             <div className={styles.avatar}>
-              <img src={profileImage} alt="User Avatar" className={styles.avatarImage} />
+              <Image 
+                src={profileImage} 
+                alt="User Avatar" 
+                width={100} 
+                height={100} 
+                className={styles.avatarImage} 
+              />
             </div>
-            <img 
+            <Image 
               src={isDarkMode ? "/pencil-dark.png" : "/pencil-light.png"} 
               alt="Edit Profile" 
+              width={24} 
+              height={24} 
               className={styles.pencilIcon}
               onClick={() => setShowModal(true)} 
             />

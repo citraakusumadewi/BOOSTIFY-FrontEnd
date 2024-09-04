@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useTheme } from '../pages/ThemeContext'; // Import ThemeContext
+import Link from 'next/link';
+import Image from 'next/image'; // Import Next.js Image component
+import { useTheme } from '../styles/ThemeContext';
 import styles from './HomeNav.module.css';
 import SignOut from './SignOut/SignOut';
 import { signOut } from 'next-auth/react';
@@ -11,20 +13,16 @@ const HomeNav: React.FC = () => {
   const [assistantCode, setAssistantCode] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-  const { isDarkMode, toggleMode } = useTheme(); // Use theme context
+  const { isDarkMode, toggleMode } = useTheme();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // Ambil data dari localStorage
       const authDataString = localStorage.getItem('authData');
       console.log('Retrieved authData from localStorage:', authDataString);
 
       if (authDataString) {
-        // Parse data dari string menjadi objek
         const authData = JSON.parse(authDataString);
-
-        // Ambil token dari authData
-        const token = authData.token.token; // Sesuaikan dengan struktur data Anda
+        const token = authData.token.token;
         console.log('Extracted token:', token);
 
         if (token) {
@@ -88,40 +86,50 @@ const HomeNav: React.FC = () => {
   return (
     <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <header className={`${styles.header} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
-        <a href="/HomePage">
-          <img src="/logo.png" alt="Boostify Logo" className={styles.logo} />
-        </a>
+        <Link href="/HomePage" passHref>
+          <Image
+            src="/logo.png"
+            alt="Boostify Logo"
+            className={styles.logo}
+            width={50} // Adjust width as needed
+            height={50} // Adjust height as needed
+          />
+        </Link>
         <nav className={styles.nav}>
           <button onClick={toggleMode} className={styles.modeToggle}>
-            <img
+            <Image
               src={isDarkMode ? "/light-mode-icon.png" : "/moon.png"}
               alt={isDarkMode ? "Light Mode Icon" : "Dark Mode Icon"}
               className={styles.dmlogo}
+              width={24} // Adjust width as needed
+              height={24} // Adjust height as needed
             />
+          </button>
+          <button className={styles.hamburger} onClick={handleMenuToggle}>
+            <span className={styles.hamburgerLine}></span>
+            <span className={styles.hamburgerLine}></span>
+            <span className={styles.hamburgerLine}></span>
+          </button>
+          <ul className={`${styles.navLinks} ${isDarkMode ? styles['dark-mode'] : ''} ${isMenuOpen ? styles.showMenu : ''}`}>
+            <li><Link href="/About" passHref><span className={styles.navLink}>About</span></Link></li>
+            <li><Link href="/Team" passHref><span className={styles.navLink}>Our Team</span></Link></li>
+            <li>
+              <button onClick={() => setShowPopup(true)} className={`${styles.navLink} ${styles.signOut}`}>
+                Sign Out
               </button>
-              <button className={styles.hamburger} onClick={handleMenuToggle}>
-                <span className={styles.hamburgerLine}></span>
-                <span className={styles.hamburgerLine}></span>
-                <span className={styles.hamburgerLine}></span>
-              </button>
-              <ul className={`${styles.navLinks} ${isDarkMode ? styles['dark-mode'] : ''} ${isMenuOpen ? styles.showMenu : ''}`}>
-                <li><a href="/About" className={styles.navLink}>About</a></li>
-                <li><a href="/Team" className={styles.navLink}>Our Team</a></li>
-                <li>
-                  <button onClick={() => setShowPopup(true)} className={`${styles.navLink} ${styles.signOut}`}>
-                    Sign Out
-                  </button>
-                </li>
-              </ul>
-              <a href="/Profile" className={styles.userAvatarButton}>
-                <div className={styles.userAvatar}>
-                  {assistantCode && (
-                    <span className={styles.assistantCode}>{assistantCode}</span>
-                  )}
-                </div>
-              </a>
-            </nav>
-          </header>
+            </li>
+          </ul>
+          <Link href="/Profile" passHref>
+            <div className={styles.userAvatarButton}>
+              <div className={styles.userAvatar}>
+                {assistantCode && (
+                  <span className={styles.assistantCode}>{assistantCode}</span>
+                )}
+              </div>
+            </div>
+          </Link>
+        </nav>
+      </header>
 
       {showPopup && <SignOut onClose={() => setShowPopup(false)} onSignOut={handleSignOut} />}
     </div>
