@@ -8,9 +8,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    margin: 0; /* Sesuaikan margin */
-    width: 100%; /* Pastikan header juga mengambil seluruh lebar halaman */
-}
+    margin-top: 16px;
+    height: 80px;
+  }
 
 .logo {
     height: 50px;
@@ -45,14 +45,14 @@
 }
 
 .navLink {
-    font-size: 16px;
-    color: #D7B66A;
+    color: #7D0A0A;
+    font-weight: medium;
     text-decoration: none;
-    font-weight: 500;
+    margin-right: 0;
 }
 
 .navLink:hover {
-    color: #EAD196;
+    color: #7D0A0A;
 }
 
 .signOut {
@@ -146,8 +146,9 @@
 
 @media (max-width: 768px) {
     .hamburger {
-        display: flex;
+        display: flex; /* Show hamburger icon */
     }
+
     .navLinks {
         display: none;
         position: absolute;
@@ -161,11 +162,16 @@
         z-index: 1000;
         border-radius: 4px;
         align-items: center;
+        width: 100%; /* Ensure the menu takes the full width */
+        box-sizing: border-box; /* Ensure padding is included in the width calculation */
     }
 
     .showMenu {
-        display: flex;
-        gap: 24px;
-        align-items: center;
+        display: flex; /* Show menu when clicked */
+    }
+
+    .navLink {
+        width: 100%; /* Ensure nav links take full width */
+        text-align: center; /* Center the text */
     }
 }

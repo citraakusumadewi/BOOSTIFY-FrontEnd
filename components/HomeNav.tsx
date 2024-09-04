@@ -98,26 +98,30 @@ const HomeNav: React.FC = () => {
               alt={isDarkMode ? "Light Mode Icon" : "Dark Mode Icon"}
               className={styles.dmlogo}
             />
-          </button>
-          <a href="/About" className={styles.navLink}>About</a>
-          <a href="/Team" className={styles.navLink}>Our Team</a>
-          <div className={styles.userSection}>
-            {userName && (
-              <>
-                <span className={styles.userName}>{userName}</span>
-                <a href="#" onClick={() => setShowPopup(true)} className={styles.signOut}>Sign Out</a>
-              </>
-            )}
-            <a href="/Profile" className={styles.userAvatarButton}>
-              <div className={styles.userAvatar}>
-                {assistantCode && (
-                  <span className={styles.assistantCode}>{assistantCode}</span>
-                )}
-              </div>
-            </a>
-          </div>
-        </nav>
-      </header>
+              </button>
+              <button className={styles.hamburger} onClick={handleMenuToggle}>
+                <span className={styles.hamburgerLine}></span>
+                <span className={styles.hamburgerLine}></span>
+                <span className={styles.hamburgerLine}></span>
+              </button>
+              <ul className={`${styles.navLinks} ${isDarkMode ? styles['dark-mode'] : ''} ${isMenuOpen ? styles.showMenu : ''}`}>
+                <li><a href="/About" className={styles.navLink}>About</a></li>
+                <li><a href="/Team" className={styles.navLink}>Our Team</a></li>
+                <li>
+                  <button onClick={() => setShowPopup(true)} className={`${styles.navLink} ${styles.signOut}`}>
+                    Sign Out
+                  </button>
+                </li>
+              </ul>
+              <a href="/Profile" className={styles.userAvatarButton}>
+                <div className={styles.userAvatar}>
+                  {assistantCode && (
+                    <span className={styles.assistantCode}>{assistantCode}</span>
+                  )}
+                </div>
+              </a>
+            </nav>
+          </header>
 
       {showPopup && <SignOut onClose={() => setShowPopup(false)} onSignOut={handleSignOut} />}
     </div>

@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './Recap.module.css';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 interface AttendanceItem {
   assisstant_code: string; // Assistant Code
   name: string;
@@ -16,6 +17,7 @@ const Recap: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1); // Default to page 1
   const [totalPages, setTotalPages] = useState<number>(8);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleFilter = () => {
@@ -108,6 +110,11 @@ const Recap: React.FC = () => {
   // Data for cards (showing a maximum of 5 cards per page)
   const cardData = attendanceData.slice(3);
 
+  const handleDateChange = (date: Date | null) => {
+    setStartDate(date);
+    toggleFilter(); // Tutup dropdown setelah memilih tanggal
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <HomeNav />
@@ -141,9 +148,13 @@ const Recap: React.FC = () => {
                 <div ref={dropdownRef} className={styles.dropdown}>
                   <p>Sort By:</p>
                   <ul>
-                    <li onClick={toggleFilter}>Day</li>
-                    <li onClick={toggleFilter}>Month</li>
-                    <li onClick={toggleFilter}>Year</li>
+                    <li>
+                      <DatePicker 
+                        selected={startDate} 
+                        onChange={handleDateChange} 
+                        placeholderText="Select Date" 
+                      />
+                    </li>
                     <li onClick={toggleFilter}>Assistant Code</li>
                   </ul>
                 </div>

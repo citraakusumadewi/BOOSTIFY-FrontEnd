@@ -16,6 +16,26 @@
     margin-bottom: 100px;
     margin-top: 100px;
 }
+
+.filter {
+    text-align: right;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    justify-content: flex-end;
+    display: flex;
+    transform: translateX(-500px);
+}
+  
+.filterButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #4A4A4A;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
   
 .recap {
     position: relative;

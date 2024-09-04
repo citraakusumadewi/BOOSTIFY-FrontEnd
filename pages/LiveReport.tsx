@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './LiveReport.module.css';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 interface AttendanceItem {
   id: number;
   assisstant_code: string;
@@ -23,6 +24,7 @@ const LiveReport: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
@@ -99,10 +101,30 @@ const LiveReport: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    // Add logic here to filter attendanceData based on selectedDate
+  };
+
+  const currentDate = selectedDate || new Date();
+
   return (
     <div className={styles.container}>
       <HomeNav />
       <h1 className={styles.title}>ATTENDANCE</h1>
+      <div className={styles.filterSection}>
+          <label htmlFor="date-picker" className={styles.filterLabel}>
+            Select Date:
+          </label>
+          <DatePicker
+            id="date-picker"
+            selected={selectedDate}
+            onChange={handleDateChange}
+            className={styles.datePicker}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="Click to select a date"
+          />
+      </div>
       <div className={styles.attendanceList}>
         {attendanceData.map((item) => (
           <div key={item.id} className={styles.attendanceItem}>

@@ -1,86 +1,94 @@
-/* General Styles */
+/* Gaya umum untuk container */
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 0 auto;
+  
 }
 
+/* Gaya umum untuk konten utama */
 .mainContent {
   flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-top: 64px; */
+  margin-top: 64px;
   margin-left: 20px;
   margin-right: 20px;
-  padding: 60px 40px;
-  width: 100%;
-  max-width: 1200px;
 }
 
+/* Gaya untuk konten teks */
 .textContent {
-  max-width: 50%;
+  /* max-width: 50%; */
   padding-right: 20px;
 }
 
+/* Gaya untuk judul */
 .title {
-  font-size: 36px;
+  font-size: 45px;
+  color: #4C4C4C;
   margin-bottom: 20px;
   font-weight: bold;
   padding-left: 30px;
-  width: 100%;
+  width: 70%;
 }
 
+/* Gaya untuk deskripsi */
 .description {
-  font-size: 18px;
+  font-size: 20px;
+  color: #4C4C4C;
   line-height: 1.5;
   text-align: justify;
   padding-left: 30px;
-  width: 100%;
+  width: 70%;
 }
 
+/* Gaya untuk konten gambar */
 .imageContent {
-  width: 50%;
+  width: 100%;
   display: flex;
   justify-content: center;
   padding-left: 70px;
 }
 
+/* Gaya untuk gambar utama */
 .mainImage {
-  height: 15rem; /* Adjusted height */
+  height: auto;
+  transform: translate(-50%);
 }
 
 .attendanceSection {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; /* Ubah menjadi row untuk tampilan desktop */
+  justify-content: center; /* Pusatkan tombol-tombol di tengah */
+  align-items: center; /* Pastikan tombol-tombol berada di tengah secara vertikal */
   padding: 60px 0;
+  gap: 20px; /* Jarak antara tombol */
   width: 100%;
 }
 
+/* Gaya untuk judul kehadiran */
 .attendanceTitle {
-  font-size: 32px;
+  font-size: 40px;
+  color: #3F3C38;
   margin-bottom: 40px;
   font-weight: bold;
 }
 
+/* Gaya untuk tombol kehadiran */
 .attendanceButton {
-  width: 200px;
-  padding: 15px 0;
+  padding: 15px 30px;
   background-color: #7D0A0A;
   color: #EAD196;
   border: none;
   border-radius: 5px;
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 20px;
   cursor: pointer;
-  text-align: center;
   transition: background-color 0.3s;
 }
 
-/* Dark Mode Styles */
+/* Gaya untuk mode gelap */
 .dark-mode .title {
   color: #BDBDBD;
 }
@@ -89,16 +97,18 @@
   color: #BDBDBD;
 }
 
-.dark-mode .attendanceTitle {
-  color: #BDBDBD;
-}
-
 .dark-mode .attendanceButton {
   background-color: #5B0A0A;
   color: #D7B66A;
 }
+.dark-mode .attendanceTitle {
+  font-size: 32px;
+  color: #BDBDBD;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
 
-/* Light Mode Styles */
+/* Gaya untuk mode terang */
 .light-mode .title {
   color: #3F3C38;
 }
@@ -107,94 +117,98 @@
   color: #3F3C38;
 }
 
-.light-mode .attendanceTitle {
-  color: #3F3C38;
-}
-
 .light-mode .attendanceButton {
   background-color: #7D0A0A;
   color: #EAD196;
-}
-
-.light-mode .attendanceButton:hover {
-  background-color: #d3b877;
+  
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
   .mainContent {
-    flex-direction: column;
-    margin: 20px 10px;
+    flex-direction: column; /* Stack text and image vertically */
+    /* Center content */
+    margin: 0px 0px; 
+    padding-top: 20px;
+  
+  }
+  .mainImage{
+    transform: translate(-40px);
+    padding-bottom: 80px;
   }
 
   .textContent {
-    width: 90%;
-    margin-bottom: 20px;
-    padding: 0 10px;
+    width: 90%; /* Ensure some margin from the edges */
+   /* Center align text */
+    margin-bottom: 20px; /* Space below text section */
+    padding: 0 10px; /* Add padding to avoid text touching screen edges */
   }
 
   .title {
-    font-size: 28px;
-    margin-bottom: 15px;
-    padding: 0;
+    font-size: 28px; /* Adjust font size for mobile */
+    margin-bottom: 15px; /* Space below title */
+    padding: 0 0px; /* Padding for better readability */
     width: 100%;
   }
 
   .description {
-    font-size: 16px;
-    line-height: 1.4;
-    width: 100%;
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    box-sizing: border-box;
+    font-size: 16px; /* Adjust font size for mobile */
+    line-height: 1.4; /* Adjust line height for readability */
+    width: 100%; /* Lebar elemen description untuk mobile */
+    max-width: 100%; /* Pastikan tidak melebihi lebar kontainer */
+    padding-left: 0px; /* Padding kiri untuk ruang tambahan */
+    padding-right: 0px; /* Padding kanan untuk ruang tambahan */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar */
   }
 
-  .mainImage {
-    width: 100%;
-    margin-bottom: 20px;
-    margin-left: -20px;
-    transform: translateX(-18%);
+  .attendanceSection {
+    flex-direction: column; /* Stack buttons vertically on mobile */
   }
 
   .attendanceButton {
-    transform: translateX(5%);
-    width: 90%;
-    display: block;
+    width: 90%; /* Lebar penuh pada tampilan mobile */
+    margin-bottom: 20px;
   }
 
   .dark-mode .attendanceButton {
     transform: translateX(5%);
-    width: 90%;
-    display: block;
+    width: 90%; /* Lebar penuh pada tampilan mobile */
+    display: block; /* Pastikan tombol tampil sebagai blok untuk margin auto */
   }
-
   .dark-mode .mainContent {
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 10px;
+    flex-direction: column; /* Stack text and image vertically */
+    /* Center content */
+    margin: 0px 0px; 
+    padding-top: 20px; /* Adjust margin for smaller screens */
   }
 
   .dark-mode .textContent {
-    width: 90%;
-    margin-bottom: 20px;
-    padding: 0 10px;
+    width: 90%; /* Ensure some margin from the edges */
+   /* Center align text */
+    margin-bottom: 20px; /* Space below text section */
+    padding: 0 10px; /* Add padding to avoid text touching screen edges */
   }
 
   .dark-mode .title {
-    font-size: 28px;
-    margin-bottom: 15px;
-    padding: 0;
+    font-size: 28px; /* Adjust font size for mobile */
+    margin-bottom: 15px; /* Space below title */
+    padding: 0 0px; /* Padding for better readability */
     width: 100%;
   }
 
   .dark-mode .description {
-    font-size: 16px;
-    line-height: 1.4;
-    width: 100%;
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    box-sizing: border-box;
+    font-size: 16px; /* Adjust font size for mobile */
+    line-height: 1.4; /* Adjust line height for readability */
+    width: 100%; /* Lebar elemen description untuk mobile */
+    max-width: 100%; /* Pastikan tidak melebihi lebar kontainer */
+    padding-left: 0px; /* Padding kiri untuk ruang tambahan */
+    padding-right: 0px; /* Padding kanan untuk ruang tambahan */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar */
   }
+  
+  .dark-mode .imageSection {
+    width: 100%; /* Full width on mobile */
+    margin-bottom: 20px; /* Space below image */
+  }
+  
 }

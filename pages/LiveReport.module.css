@@ -12,6 +12,28 @@
   margin-top: 100px;
 }
 
+.filterSection {
+  margin: 20px auto;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filterLabel {
+  font-size: 18px;
+  margin-right: 20px;
+  color: #4A4A4A;
+}
+
+.datePicker {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
 .attendanceList {
   display: flex;
   flex-direction: column;
