@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Image from 'next/image'; // Import Next.js Image component
+import Image from 'next/image';
 import { useTheme } from '../styles/ThemeContext';
-import styles from './HomeNav.module.css';
 import SignOut from './SignOut/SignOut';
 import { signOut } from 'next-auth/react';
 
@@ -70,7 +69,7 @@ const HomeNav: React.FC = () => {
       localStorage.removeItem('nextauth.message');
       console.log('Sign out successful, session and token removed');
 
-      await signOut({ callbackUrl: '/SignIn' });
+      await signOut({ callbackUrl: '/' });
     } catch (error) {
       console.error('Sign out failed:', error);
     } finally {
@@ -84,46 +83,59 @@ const HomeNav: React.FC = () => {
   };
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
-      <header className={`${styles.header} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
+    <div className={`w-full min-h-100 ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'}`}>
+      <header className={`flex justify-between items-center px-4 py-4 mt-4 h-20 ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'}`}>
         <Link href="/HomePage" passHref>
           <Image
             src="/logo.png"
             alt="Boostify Logo"
-            className={styles.logo}
-            width={50} // Adjust width as needed
-            height={50} // Adjust height as needed
+            className="h-18 w-28"
+            width={50}
+            height={50}
           />
         </Link>
-        <nav className={styles.nav}>
-          <button onClick={toggleMode} className={styles.modeToggle}>
+        <nav className="flex items-center gap-5">
+          <button onClick={toggleMode} className="transition-transform duration-300">
             <Image
               src={isDarkMode ? "/light-mode-icon.png" : "/moon.png"}
               alt={isDarkMode ? "Light Mode Icon" : "Dark Mode Icon"}
-              className={styles.dmlogo}
-              width={24} // Adjust width as needed
-              height={24} // Adjust height as needed
+              className="h-7 w-9 hover:rotate-20"
+              width={24}
+              height={24}
             />
           </button>
-          <button className={styles.hamburger} onClick={handleMenuToggle}>
-            <span className={styles.hamburgerLine}></span>
-            <span className={styles.hamburgerLine}></span>
-            <span className={styles.hamburgerLine}></span>
+          <button className="flex flex-col gap-1.5 bg-transparent border-none cursor-pointer md:hidden" onClick={handleMenuToggle}>
+            <span className="w-6 h-0.5 bg-gray-500"></span>
+            <span className="w-6 h-0.5 bg-gray-500"></span>
+            <span className="w-6 h-0.5 bg-gray-500"></span>
           </button>
-          <ul className={`${styles.navLinks} ${isDarkMode ? styles['dark-mode'] : ''} ${isMenuOpen ? styles.showMenu : ''}`}>
-            <li><Link href="/About" passHref><span className={styles.navLink}>About</span></Link></li>
-            <li><Link href="/Team" passHref><span className={styles.navLink}>Our Team</span></Link></li>
-            <li>
-              <button onClick={() => setShowPopup(true)} className={`${styles.navLink} ${styles.signOut}`}>
+          {/* Navbar Links */}
+          <ul className={`flex-col items-center gap-8 transition-all duration-300 md:flex ${isMenuOpen ? 'flex' : 'hidden'} ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'} absolute top-20 left-0 right-0 p-4 md:static md:flex-row md:shadow-none shadow-lg z-50`}>
+            <li className="w-full text-center md:w-auto">
+              <Link href="/About" passHref>
+                <span className={`font-medium ${isDarkMode ? 'text-[#EAD196]' : 'text-red-700'}`}>
+                  About
+                </span>
+              </Link>
+            </li>
+            <li className="w-full text-center md:w-auto">
+              <Link href="/Team" passHref>
+                <span className={`font-medium ${isDarkMode ? 'text-[#EAD196]' : 'text-red-700'}`}>
+                  Our Team
+                </span>
+              </Link>
+            </li>
+            <li className="w-full text-center md:w-auto">
+              <button onClick={() => setShowPopup(true)} className={`font-bold ${isDarkMode ? 'text-[#EAD196]' : 'text-red-700'}`}>
                 Sign Out
               </button>
             </li>
           </ul>
           <Link href="/Profile" passHref>
-            <div className={styles.userAvatarButton}>
-              <div className={styles.userAvatar}>
+            <div className="bg-transparent border-none cursor-pointer">
+              <div className="flex items-center justify-center bg-[#EAD196] rounded-full w-12 h-12">
                 {assistantCode && (
-                  <span className={styles.assistantCode}>{assistantCode}</span>
+                  <span className="text-red-700 font-bold text-sm">{assistantCode}</span>
                 )}
               </div>
             </div>

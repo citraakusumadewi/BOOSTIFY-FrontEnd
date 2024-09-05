@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTheme } from '../styles/ThemeContext';
-import styles from './FeatureCard.module.css';
 
 interface FeatureCardProps {
   title: string;
@@ -10,12 +9,15 @@ interface FeatureCardProps {
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon }) => {
   const { isDarkMode } = useTheme();
+
   return (
-    <div className={`${styles.featureCard} ${isDarkMode ? styles['darkMode'] : ''}`}>
-      <div className={isDarkMode ? styles.icon : styles.darkModeIcon}>{icon}</div>
-      <div className={styles.ml4}>
-        <h3 className={styles.textLgFontSemibold}>{title}</h3>
-        <p className={isDarkMode ? styles.textGray400 : styles.textGray600}>{description}</p>
+    <div className={`p-4 rounded-lg shadow-md flex items-center ${isDarkMode ? 'bg-gray-800 text-gray-400' : 'bg-gray-100'}`}>
+      <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        {icon}
+      </div>
+      <div className="ml-4">
+        <h3 className="text-lg font-semibold text-left">{title}</h3>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-left`}>{description}</p>
       </div>
     </div>
   );

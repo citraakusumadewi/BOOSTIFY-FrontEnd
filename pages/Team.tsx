@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import styles from './Team.module.css';
+import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-import { useTheme } from '../pages/ThemeContext';
-
+import { useTheme } from '../styles/ThemeContext';
 
 const OurTeam: React.FC = () => {
-  const { data: session, status } = useSession(); // Use status for better control
+  const { data: session, status } = useSession();
   const { isDarkMode } = useTheme();
 
   useEffect(() => {
@@ -17,93 +16,90 @@ const OurTeam: React.FC = () => {
   }, [session, status]);
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
-      {status === 'authenticated' ? <HomeNav /> : <Navbar />} {/* Conditionally render Navbar or HomeNav */}
+    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-[#0D0D0D] text-gray-300' : 'bg-white text-gray-900'}`}>
+      {status === 'authenticated' ? <HomeNav /> : <Navbar />}
 
-      <main className={`${styles.mainContent} ${isDarkMode ? styles['dark-mode'] : ''}`}>
-        <h1 className={`${styles.title} ${isDarkMode ? styles['dark-mode'] : ''}`}>RESEARCH DIVISION 22</h1>
+      <main className={`p-4 md:p-8 lg:p-12 text-center ${isDarkMode ? 'bg-[#0D0D0D] text-gray-300' : 'bg-white text-gray-900'}`}>
+        <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold mt-1 mb-8 md:mb-16 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+          RESEARCH DIVISION 22
+        </h1>
 
-        <div className={styles.cardSection}>
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Backend</h2>
-            <div className={styles.members}>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/Mitch.jpg" alt="User" className={styles.avatarImage} />
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-center flex-wrap">
+          <div className="bg-[#7D0A0A] text-yellow-100 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md lg:max-w-lg xl:max-w-2xl">
+            <h2 className={`text-xl sm:text-2xl mb-4 md:mb-6 font-bold text-left ${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'}`}>
+              Backend
+            </h2>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/Mitch.jpg" alt="MMA" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>MMA</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>MMA</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/sayyid.jpg" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/sayyid.jpg" alt="SZN" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>SZN</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>SZN</p>
               </div>
             </div>
           </div>
 
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Frontend</h2>
-            <div className={styles.members}>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/citra.jpg" alt="User" className={styles.avatarImage} />
+          {/* Repeat similar blocks for Frontend and Machine Learning */}
+          
+          <div className="bg-[#7D0A0A] text-yellow-100 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md lg:max-w-lg xl:max-w-2xl">
+            <h2 className={`text-xl sm:text-2xl mb-4 md:mb-6 font-bold text-left ${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'}`}>
+              Frontend
+            </h2>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/citra.jpg" alt="CIT" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>CIT</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>CIT</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/lily.jpg" alt="LIA" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>LIA</p>
-              </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/kharisma.jpg" alt="User" className={styles.avatarImage} />
-                </div>
-                <p className={styles.name}>ATX</p>
-              </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
-                </div>
-                <p className={styles.name}>AFN</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>LIA</p>
               </div>
             </div>
           </div>
-
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Machine Learning</h2>
-            <div className={styles.members}>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/Kinep.jpg" alt="User" className={styles.avatarImage} />
+          <div className="bg-[#7D0A0A] text-yellow-100 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md lg:max-w-lg xl:max-w-2xl">
+            <h2 className={`text-xl sm:text-2xl mb-4 md:mb-6 font-bold text-left ${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'}`}>
+              Machine Learning
+            </h2>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/Kinep.jpg" alt="KNP" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>KNP</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>KNP</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/alika.jpg" alt="AKA" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>AKA</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>AKA</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/Fatur.jpg" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/Fatur.jpg" alt="MFT" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>MFT</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>MFT</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/Kaasyiful.jpg" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/Kaasyiful.jpg" alt="KSF" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>KSF</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>KSF</p>
               </div>
-              <div className={styles.member}>
-                <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+              <div className="text-center">
+                <div className="rounded-full overflow-hidden w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-2">
+                  <Image src="/juna.jpeg" alt="JIN" width={80} height={80} className="object-cover" />
                 </div>
-                <p className={styles.name}>JIN</p>
+                <p className={`${isDarkMode ? 'text-yellow-200' : 'text-[#EAD196]'} text-base sm:text-lg`}>JIN</p>
               </div>
             </div>
           </div>

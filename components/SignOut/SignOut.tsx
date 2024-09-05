@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
-import styles from './SignOut.module.css';
 
 interface SignOutPopupProps {
   onClose: () => void;
@@ -13,7 +12,7 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
 
   const handleGoBack = () => {
     onClose(); // Close the popup
-    router.back(); // Redirect to the HomePage
+    router.back(); // Redirect to the previous page
   };
 
   const handleSignOut = async () => {
@@ -37,8 +36,8 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
           if (response.ok) {
             console.log('Sign-out successful, removing token from localStorage...');
             localStorage.removeItem('authData'); // Clear the authData from localStorage
-            await signOut({ redirect: false }); // Menghindari redirect otomatis
-            router.push('/'); // Arahkan ke halaman utama setelah sign-out
+            await signOut({ redirect: false }); // Prevent automatic redirect
+            router.push('/'); // Redirect to homepage after sign-out
           } else {
             console.error('Sign-out failed, response status:', response.status);
           }
@@ -56,12 +55,22 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.popup}>
-        <h2 className={styles.title}>Are You Sure?</h2>
-        <div className={styles.buttons}>
-          <button onClick={onClose} className={styles.goBackButton}>Go Back</button>
-          <button onClick={handleSignOut} className={styles.signOutButton}>Yes</button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-[#7D0A0A] p-10 rounded-lg text-center">
+        <h2 className="text-3xl font-bold text-[#EAD196] mb-6">Are You Sure?</h2>
+        <div className="flex justify-center gap-5">
+          <button
+            onClick={onClose}
+            className="bg-[#F3EDC8] text-[#7D0A0A] px-6 py-2 rounded-full text-lg transition-opacity duration-300 hover:opacity-90"
+          >
+            Go Back
+          </button>
+          <button
+            onClick={handleSignOut}
+            className="bg-[#EAD196] text-[#7D0A0A] px-6 py-2 rounded-full text-lg transition-opacity duration-300 hover:opacity-90"
+          >
+            Yes
+          </button>
         </div>
       </div>
     </div>

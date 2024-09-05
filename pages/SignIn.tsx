@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn, useSession, getSession } from 'next-auth/react';
 import Image from 'next/image'; // Import Next.js Image component
+import Link from 'next/link'; // Import Next.js Link component
 import { DefaultSession } from 'next-auth';
-import styles from './SignIn.module.css';
 import { useTheme } from '../styles/ThemeContext';
 
 // Extend the DefaultSession type to include the id and token
@@ -66,48 +66,56 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
-      <div className={styles.logo}>
-        <Image src="/logo.png" alt="Boostify Logo" width={100} height={50} />
+    <div className={`flex flex-col items-center justify-center min-h-screen pt-12 pl-10 ${isDarkMode ? 'bg-[#0D0D0D]' : 'bg-gray-100'}`}>
+      <div className="mb-20">
+      <Link href="/">
+          <Image src="/logo.png" alt="Boostify Logo" width={200} height={100} className="cursor-pointer" />
+        </Link>
       </div>
-      <div className={styles.formContainer}>
-        <h2 className={styles.title}>Sign In to Your Account</h2>
-        <form className={styles.form} onSubmit={handleSignIn}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="assistantCode" className={styles.label}>Assistant Code</label>
+      <div className={`p-8 rounded-lg shadow-lg max-w-md w-full text-center ${isDarkMode ? 'bg-[#5B0A0A]' : 'bg-[#7D0A0A]'}`}>
+        <h2 className={`text-2xl mb-8 font-bold ${isDarkMode ? 'text-[#BDBDBD]' : 'text-[#EAD196]'}`}>Sign In to Your Account</h2>
+        <form className="flex flex-col gap-5" onSubmit={handleSignIn}>
+          <div className="flex flex-col w-full">
+            <label htmlFor="assistantCode" className="sr-only">Assistant Code</label>
             <input
               type="text"
               id="assistantCode"
-              className={styles.input}
+              className={`p-4 rounded border-none text-lg ${isDarkMode ? 'bg-[#D7B66A] text-[#5B0A0A]' : 'bg-[#F3EDC8] text-[#BF3131]'} w-full`}
               placeholder="Assistant Code"
               value={assistantCode}
               onChange={handleAssistantCodeChange}
               required
             />
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>Password</label>
-            <div className={styles.passwordContainer}>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                className={styles.input}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+          <div className="relative flex items-center w-full">
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              className={`p-4 rounded border-none text-lg ${isDarkMode ? 'bg-[#D7B66A] text-[#5B0A0A]' : 'bg-[#F3EDC8] text-[#BF3131]'} w-full`}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className={`absolute right-4 cursor-pointer ${isDarkMode ? 'text-[#5B0A0A]' : 'text-[#BF3131]'}`}
+            >
               <Image
                 src={showPassword ? '/eye-slash.png' : '/eye.png'}
                 alt="Toggle Password Visibility"
-                width={20} height={20}
-                className={styles.eyeIcon}
-                onClick={() => setShowPassword(!showPassword)}
+                width={35} height={30}
               />
-            </div>
+            </button>
           </div>
-          {error && <div className={styles.error}>{error}</div>}
-          <button type="submit" className={styles.signInButton} disabled={loading}>
+          {error && <div className="text-red-500 mt-2">{error}</div>}
+          <button
+            type="submit"
+            className={`py-2 px-4 rounded font-bold transition-colors ${isDarkMode ? 'bg-[#D7B66A] text-[#5B0A0A] hover:bg-yellow-300' : 'bg-[#F3EDC8] text-[#BF3131] hover:bg-yellow-200'} mt-6`}
+            disabled={loading}
+          >
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
