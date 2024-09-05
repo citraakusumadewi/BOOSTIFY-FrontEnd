@@ -6,6 +6,7 @@ import HomeNav from '../components/HomeNav'; // Import HomeNav component
 import Footer from '../components/Footer';
 import { useTheme } from '../styles/ThemeContext';
 import Link from 'next/link'; // Import Link from next/link
+import Image from 'next/image'; // Import Image from next/image
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
@@ -58,7 +59,13 @@ const LandingPage: React.FC = () => {
 
         {/* Image Section */}
         <div className="lg:w-1/2 flex justify-center">
-          <img src="/smile-image.png" alt="Smiling Face" className="h-64 w-64 sm:h-72 sm:w-72 md:h-80 md:w-80 lg:h-90 lg:w-90 xl:h-[23rem] xl:w-[23rem]" />
+          <Image 
+            src="/smile-image.png" 
+            alt="Smiling Face" 
+            className="h-64 w-64 sm:h-72 sm:w-72 md:h-80 md:w-80 lg:h-90 lg:w-90 xl:h-[23rem] xl:w-[23rem]" 
+            width={320} // Adjust width
+            height={320} // Adjust height
+          />
         </div>
       </main>
 
