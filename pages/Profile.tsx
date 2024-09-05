@@ -142,7 +142,9 @@ const Profile: React.FC = () => {
       try {
         const authData = JSON.parse(authDataString);
         const token = authData.token.token;
-
+  
+        console.log('Fetching attendance data with token:', token); // Debugging line
+  
         const response = await fetch('https://boostify-back-end.vercel.app/api/personalrec', {
           method: 'GET',
           headers: {
@@ -150,7 +152,7 @@ const Profile: React.FC = () => {
             'Content-Type': 'application/json',
           },
         });
-
+  
         if (!response.ok) {
           if (response.status === 404) {
             setAttendanceData([]); // Set to an empty array to display "No attendance history available"
@@ -160,13 +162,14 @@ const Profile: React.FC = () => {
           }
         } else {
           const data = await response.json();
+          console.log('Attendance data received:', data); // Debugging line
           setAttendanceData(data.attendancesTime || []);
         }
       } catch (error: any) {
         console.error('Failed to fetch attendance data:', error.message);
       }
     }
-  };
+  };  
 
   useEffect(() => {
     fetchUserData();
@@ -177,7 +180,7 @@ const Profile: React.FC = () => {
     <div className={`max-w-7xl mx-auto ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'}`}>
       <HomeNav />
       <main className="px-4 py-10">
-        <div className="flex flex-col items-center mb-10">
+        <div className={`flex flex-col items-center mb-10 ${isDarkMode ? 'text-white' : 'text-black'}`}>
           <div className="relative flex flex-col items-center">
             <div className="bg-yellow-100 w-36 h-36 sm:w-48 sm:h-48 rounded-full flex items-center justify-center overflow-hidden mt-8 sm:mt-12">
               <Image 
@@ -191,9 +194,9 @@ const Profile: React.FC = () => {
             <Image 
               src={isDarkMode ? "/pencil-dark.png" : "/pencil-light.png"} 
               alt="Edit Profile" 
-              width={100} 
-              height={50} 
-              className="absolute bottom-4 right-0 cursor-pointer w-full h-full sm:w-10 sm:h-10 aspect-square" 
+              width={40}  // You can adjust this value
+              height={40} // You can adjust this value
+              className="absolute bottom-4 right-0 cursor-pointer sm:w-10 sm:h-10 aspect-square" 
               onClick={() => setShowModal(true)} 
             />
           </div>

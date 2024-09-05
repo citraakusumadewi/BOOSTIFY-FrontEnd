@@ -69,7 +69,7 @@ const HomeNav: React.FC = () => {
       localStorage.removeItem('nextauth.message');
       console.log('Sign out successful, session and token removed');
 
-      await signOut({ callbackUrl: '/SignIn' });
+      await signOut({ callbackUrl: '/' });
     } catch (error) {
       console.error('Sign out failed:', error);
     } finally {
@@ -109,7 +109,8 @@ const HomeNav: React.FC = () => {
             <span className="w-6 h-0.5 bg-gray-500"></span>
             <span className="w-6 h-0.5 bg-gray-500"></span>
           </button>
-          <ul className={`flex-col items-center gap-8 transition-all duration-300 md:flex ${isMenuOpen ? 'flex' : 'hidden'} ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'} absolute top-20 left-0 right-0 p-4 md:static md:flex-row md:shadow-none shadow-lg`}>
+          {/* Navbar Links */}
+          <ul className={`flex-col items-center gap-8 transition-all duration-300 md:flex ${isMenuOpen ? 'flex' : 'hidden'} ${isDarkMode ? 'bg-[#0D0D0D] text-white' : 'bg-white text-black'} absolute top-20 left-0 right-0 p-4 md:static md:flex-row md:shadow-none shadow-lg z-50`}>
             <li className="w-full text-center md:w-auto">
               <Link href="/About" passHref>
                 <span className={`font-medium ${isDarkMode ? 'text-[#EAD196]' : 'text-red-700'}`}>
