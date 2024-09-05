@@ -3,6 +3,7 @@ import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Image from 'next/image'; // Import Image from next/image
 
 interface AttendanceItem {
   assisstant_code: string; // Assistant Code
@@ -139,10 +140,12 @@ const Recap: React.FC = () => {
               
               return (
                 <div key={index} className={`text-center text-red-800 absolute flex flex-col items-center ${rankClasses}`}>
-                  <img 
+                  <Image 
                     src={medalIcon} 
                     alt="medal" 
                     className="absolute top-[-10px] left-[-15px] w-20 h-20 object-contain z-20" 
+                    width={80} // Ganti dengan ukuran yang sesuai
+                    height={80} // Ganti dengan ukuran yang sesuai
                   />
                   <div className="bg-[#EAD196] w-36 h-36 rounded-full flex justify-center items-center text-2xl font-bold relative z-10">
                     <span>{attendee.assisstant_code}</span>
