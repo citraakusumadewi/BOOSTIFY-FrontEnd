@@ -29,7 +29,7 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/Mitch.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MMA</p>
               </div>
