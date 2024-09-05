@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image'; // Import Next.js Image component
+import styles from './Team.module.css';
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-import styles from './Team.module.css';
-import { useTheme } from '../styles/ThemeContext';
+import { useTheme } from '../pages/ThemeContext';
+
 
 const OurTeam: React.FC = () => {
   const { data: session, status } = useSession(); // Use status for better control
@@ -29,13 +29,13 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/Mitch.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MMA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/sayyid.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>SZN</p>
               </div>
@@ -47,25 +47,25 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/citra.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>CIT</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>LIA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/kharisma.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>ATX</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>AFN</p>
               </div>
@@ -77,31 +77,31 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/Kinep.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KNP</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>AKA</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/Fatur.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MFT</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/Kaasyiful.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KSF</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <Image src="/user.png" alt="User" className={styles.avatarImage} width={50} height={50} />
+                  <img src="/user.png" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>JIN</p>
               </div>
