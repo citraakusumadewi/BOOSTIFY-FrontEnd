@@ -4,10 +4,8 @@ import { useSession } from 'next-auth/react';
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav'; // Import HomeNav component
 import Footer from '../components/Footer';
-import styles from './LandingPage.module.css'; // Import file CSS
 import { useTheme } from '../styles/ThemeContext';
-import Image from 'next/image'; // Import Next.js Image component
-import Link from 'next/link'; // Import Next.js Link component
+import Link from 'next/link'; // Import Link from next/link
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
@@ -36,20 +34,22 @@ const LandingPage: React.FC = () => {
   }
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']} min-h-screen flex flex-col`}>
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-[#0D0D0D] text-gray-100' : 'bg-white text-gray-900'}`}>
       {session ? <HomeNav /> : <Navbar />}
 
       {/* Main Content */}
-      <main className={styles.mainContent}>
+      <main className="flex flex-col lg:flex-row items-center lg:justify-between mt-8 sm:mt-10 md:mt-12 lg:mt-16 mx-4 sm:mx-5 md:mx-8 lg:mx-10 xl:mx-16">
         {/* Text Section */}
-        <div className={styles.textSection}>
-          <h1 className={styles.title}>Capture Your Smile, Capture Your Presence</h1>
-          <p className={styles.description}>
-            This device is an attendance system based on facial recognition technology that requires users to smile as a sign of presence. With just a smile, your attendance is automatically recorded, enhancing the positive atmosphere in the workplace or school. Additionally, this device aims to boost peoples enthusiasm and motivation to start their day with a smile, creating a more positive and productive environment.
+        <div className="lg:w-1/2 text-left mb-8 sm:mb-10 md:mb-12 lg:mb-0">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 lg:pl-0">
+            Capture Your Smile, Capture Your Presence
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg leading-relaxed lg:pl-0 text-justify">
+            This device is an attendance system based on facial recognition technology that requires users to smile as a sign of presence. With just a smile, your attendance is automatically recorded, enhancing the positive atmosphere in the workplace or school. Additionally, this device aims to boost people's enthusiasm and motivation to start their day with a smile, creating a more positive and productive environment.
           </p>
-          <div>
+          <div className="mt-6 sm:mt-8 ml-0 md:ml-0">
             <Link href="/SignIn" passHref>
-              <button className={styles.attendanceButton}>
+              <button className="bg-[#7D0A0A] text-[#EAD196] py-2 sm:py-3 px-5 sm:px-6 rounded-lg font-semibold shadow-lg transform hover:bg-red-700 transition-transform duration-300">
                 See Your Attendance
               </button>
             </Link>
@@ -57,8 +57,8 @@ const LandingPage: React.FC = () => {
         </div>
 
         {/* Image Section */}
-        <div className={styles.imageSection}>
-          <Image src="/smile-image.png" alt="Smiling Face" width={500} height={500} className={styles.smileImage} />
+        <div className="lg:w-1/2 flex justify-center">
+          <img src="/smile-image.png" alt="Smiling Face" className="h-64 w-64 sm:h-72 sm:w-72 md:h-80 md:w-80 lg:h-90 lg:w-90 xl:h-[23rem] xl:w-[23rem]" />
         </div>
       </main>
 

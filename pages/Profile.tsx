@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image'; // Import Next.js Image component
+import Image from 'next/image';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-import styles from './Profile.module.css';
 import { useTheme } from '../styles/ThemeContext';
 
 type AttendanceItem = {
@@ -175,67 +174,66 @@ const Profile: React.FC = () => {
   }, []);
 
   return (
-    <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
+    <div className={`max-w-7xl mx-auto ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <HomeNav />
-      <main className={styles.main}>
-        <div className={styles.profile}>
-          <div className={styles.avatarContainer}>
-            <div className={styles.avatar}>
+      <main className="px-4 py-10">
+        <div className="flex flex-col items-center mb-10">
+          <div className="relative flex flex-col items-center">
+            <div className="bg-yellow-100 w-36 h-36 sm:w-48 sm:h-48 rounded-full flex items-center justify-center overflow-hidden mt-8 sm:mt-12">
               <Image 
                 src={profileImage} 
                 alt="User Avatar" 
                 width={100} 
                 height={100} 
-                className={styles.avatarImage} 
+                className="object-cover w-full h-full" 
               />
             </div>
             <Image 
               src={isDarkMode ? "/pencil-dark.png" : "/pencil-light.png"} 
               alt="Edit Profile" 
-              width={24} 
-              height={24} 
-              className={styles.pencilIcon}
+              width={100} 
+              height={50} 
+              className="absolute bottom-4 right-0 cursor-pointer w-full h-full sm:w-10 sm:h-10 aspect-square" 
               onClick={() => setShowModal(true)} 
             />
           </div>
-          <h2 className={styles.assistantCode}>{profileData?.assisstant_code || 'N/A'}</h2>
-          <h1 className={styles.name}>{profileData?.name || 'Loading...'}</h1>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-700 my-4 sm:my-5">{profileData?.assisstant_code || 'N/A'}</h2>
+          <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800">{profileData?.name || 'Loading...'}</h1>
         </div>
-        <section className={styles.attendanceHistory}>
-          <h2>Attendance History</h2>
+        <section className="mt-8 sm:mt-12">
+          <h2 className="font-bold text-xl sm:text-2xl mb-6 sm:mb-8">Attendance History</h2>
           {attendanceData.length > 0 ? (
             attendanceData.map((item: AttendanceItem, index: number) => (
-              <div key={index} className={styles.historyItem}>
-                <span className={styles.time}>{item.time}</span>
-                <span className={styles.rawTime}>{formatTime(item.rawTime)}</span>
+              <div key={index} className="flex justify-between py-2 border-b text-base sm:text-lg font-bold">
+                <span className="flex-1">{item.time}</span>
+                <span className="flex-1 text-right">{formatTime(item.rawTime)}</span>
               </div>
             ))
           ) : (
-            <p className={styles.noHistoryText}>No attendance history available</p>
+            <p className="text-base sm:text-lg text-gray-600">No attendance history available</p>
           )}
         </section>
       </main>
 
       {showModal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <button className={styles.closeIcon} onClick={() => setShowModal(false)}>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 sm:p-5 rounded-lg text-center w-56 sm:w-64 relative">
+            <button className="absolute top-2 right-2 text-lg font-bold text-gray-700" onClick={() => setShowModal(false)}>
               &times;
             </button>
-            <h3>Edit Profile Picture</h3>
-            
-            <label className={styles.fileLabel}>
+            <h3 className="mb-2 text-base sm:text-lg font-bold text-gray-800">Edit Profile Picture</h3>
+            <label className="inline-block py-1 px-2 bg-[#D7B66A] text-[#7D0A0A] rounded cursor-pointer mb-2">
               <input 
                 type="file" 
                 accept="image/jpeg,image/jpg,image/png,image/heic" 
                 onChange={handleFileChange}
-                className={styles.fileInput} 
+                className="hidden" 
               />
+              Choose File
             </label>
-            {/* <p className={styles.noFileChosen}>No file chosen</p> */}
-            <div className={styles.buttonContainer}>
-              <button className={styles.deleteButton} onClick={handleDeleteImage}>Delete Image</button>
-              <button className={styles.uploadButton} onClick={() => setShowModal(false)}>Upload</button>
+            <div className="flex justify-between mt-4">
+              <button className="py-1 px-3 bg-[#7D0A0A] text-[#D7B66A] rounded font-bold" onClick={handleDeleteImage}>Delete Image</button>
+              <button className="py-1 px-3 bg-[#D7B66A] text-[#7D0A0A] rounded font-bold" onClick={() => setShowModal(false)}>Upload</button>
             </div>
           </div>
         </div>
