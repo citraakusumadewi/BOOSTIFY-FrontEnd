@@ -4,7 +4,7 @@ import styles from './Team.module.css';
 import Navbar from '../components/Navbar';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
-import { useTheme } from '../pages/ThemeContext';
+import { useTheme } from '../styles/ThemeContext';
 
 
 const OurTeam: React.FC = () => {
