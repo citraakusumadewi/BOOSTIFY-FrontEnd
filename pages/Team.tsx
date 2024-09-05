@@ -35,7 +35,7 @@ const OurTeam: React.FC = () => {
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/sayyid.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>SZN</p>
               </div>
@@ -47,7 +47,7 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/citra.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>CIT</p>
               </div>
@@ -59,7 +59,7 @@ const OurTeam: React.FC = () => {
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/kharisma.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>ATX</p>
               </div>
@@ -77,7 +77,7 @@ const OurTeam: React.FC = () => {
             <div className={styles.members}>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/Kinep.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KNP</p>
               </div>
@@ -89,13 +89,13 @@ const OurTeam: React.FC = () => {
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/Fatur.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>MFT</p>
               </div>
               <div className={styles.member}>
                 <div className={styles.avatar}>
-                  <img src="/user.png" alt="User" className={styles.avatarImage} />
+                  <img src="/Kaasyiful.jpg" alt="User" className={styles.avatarImage} />
                 </div>
                 <p className={styles.name}>KSF</p>
               </div>
