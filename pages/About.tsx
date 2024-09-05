@@ -20,7 +20,7 @@ const About: React.FC = () => {
   }, [status]);
 
   return (
-    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-gray-900 text-gray-300' : 'bg-white text-black'}`}>
+    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-[#] text-gray-300' : 'bg-white text-black'}`}>
       {/* Conditionally render HomeNav or Navbar based on isAuthenticated state */}
       {isAuthenticated ? <HomeNav /> : <Navbar />}
       
@@ -71,7 +71,7 @@ const About: React.FC = () => {
         </section>
 
         {/* Vertical Feature Cards */}
-        <section className={`flex flex-col items-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+        <section className={`flex flex-col items-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 ${isDarkMode ? 'bg-[#0D0D0D]' : 'bg-white'}`}>
           <div className="flex flex-col gap-8 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl w-full">
             <FeatureCard
               title="Happiness and Productivity"

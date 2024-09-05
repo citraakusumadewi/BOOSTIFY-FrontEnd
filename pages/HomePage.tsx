@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
   const { isDarkMode } = useTheme();
 
   return (
-    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-none text-gray-900'}`}>
+    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-[#0D0D0D] text-gray-200' : 'bg-none text-gray-900'}`}>
       <HomeNav />
 
       <main className="flex flex-col lg:flex-row items-center lg:justify-between mt-8 sm:mt-10 md:mt-12 lg:mt-16 mx-4 sm:mx-5 md:mx-8 lg:mx-10 xl:mx-16">
