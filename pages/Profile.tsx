@@ -1,9 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image'; // Import Next.js Image component
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import styles from './Profile.module.css';
 import { useTheme } from '../styles/ThemeContext';
+import { useSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
+
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
+}
 
 type AttendanceItem = {
   time: string;
@@ -25,13 +39,12 @@ const Profile: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [profileImage, setProfileImage] = useState<string>('/user.png');
   const [showModal, setShowModal] = useState<boolean>(false);
+  const { data: session } = useSession() as { data: CustomSession }; 
 
-  const fetchUserData = async () => {
-    const authDataString = localStorage.getItem('authData');
-    if (authDataString) {
+  const fetchUserData = useCallback(async () => {
+    if (session?.user?.token) {
       try {
-        const authData = JSON.parse(authDataString);
-        const token = authData.token.token;
+        const token = session.user.token;
 
         const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
           method: 'GET',
@@ -52,7 +65,7 @@ const Profile: React.FC = () => {
         console.error('Failed to fetch user data:', error.message);
       }
     }
-  };
+  },[session?.user?.token]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -62,12 +75,9 @@ const Profile: React.FC = () => {
         alert('Only JPG, JPEG, PNG, and HEIC formats are allowed.');
         return;
       }
-
-      const authDataString = localStorage.getItem('authData');
-      if (authDataString) {
+      if (session?.user?.token) {
         try {
-          const authData = JSON.parse(authDataString);
-          const token = authData.token.token;
+          const token = session.user.token;
 
           const formData = new FormData();
           formData.append('image', file); // Match the key expected by multer
@@ -104,11 +114,9 @@ const Profile: React.FC = () => {
   };
 
   const handleDeleteImage = async () => {
-    const authDataString = localStorage.getItem('authData');
-    if (authDataString) {
+    if (session?.user?.token) {
       try {
-        const authData = JSON.parse(authDataString);
-        const token = authData.token.token;
+        const token = session.user.token;
 
         const response = await fetch('https://boostify-back-end.vercel.app/api/deleteImage', {
           method: 'DELETE',
@@ -137,12 +145,10 @@ const Profile: React.FC = () => {
     }
   };
 
-  const fetchAttendanceData = async () => {
-    const authDataString = localStorage.getItem('authData');
-    if (authDataString) {
+  const fetchAttendanceData = useCallback(async () => {
+    if (session?.user?.token) {
       try {
-        const authData = JSON.parse(authDataString);
-        const token = authData.token.token;
+        const token = session.user.token;
 
         const response = await fetch('https://boostify-back-end.vercel.app/api/personalrec', {
           method: 'GET',
@@ -167,12 +173,12 @@ const Profile: React.FC = () => {
         console.error('Failed to fetch attendance data:', error.message);
       }
     }
-  };
+  }, [session?.user?.token]);
 
   useEffect(() => {
     fetchUserData();
     fetchAttendanceData();
-  }, []);
+  }, [fetchUserData, fetchAttendanceData]);
 
   return (
     <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>

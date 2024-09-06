@@ -9,6 +9,8 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Debugging output to track the token and path
+  console.log('Token Detail:', JSON.stringify(token, null, 2));
+
   console.log('Token:', token);  
   console.log('Pathname:', pathname);  
 

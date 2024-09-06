@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
       username: assistantCode,
       password,
     });
-
+    console.log("SignIn Result:", result);
     setLoading(false);
 
     if (result?.error) {
@@ -47,16 +47,13 @@ const SignIn: React.FC = () => {
     } else {
       // Get the latest session after sign-in
       const session = await getSession() as CustomSession; // Ensure type casting here
+      console.log("Session After SignIn:", session);
       if (session?.user?.token) {
-        const userData = {
-          id: session.user.id,
-          name: session.user.name,
-          assistant_code: session.user.email,
-          token: session.user.token,
-        };
-        localStorage.setItem('authData', JSON.stringify(userData));
+        console.log("Token found, redirecting to HomePage");
+        router.push('/HomePage');
+      } else {
+        console.log("No token found");
       }
-      router.push('/HomePage');
     }
   };
 

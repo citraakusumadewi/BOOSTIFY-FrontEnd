@@ -4,6 +4,20 @@ import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
+
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
+}
 interface AttendanceItem {
   id: number;
   assisstant_code: string;
@@ -25,14 +39,13 @@ const LiveReport: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { data: session } = useSession() as { data: CustomSession }; 
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
-      const authDataString = localStorage.getItem('authData');
-      if (authDataString) {
+      if (session?.user?.token) {
         try {
-          const authData = JSON.parse(authDataString);
-          const token = authData.token.token;
+          const token = session.user.token;
 
           const response = await fetch(`https://boostify-back-end.vercel.app/api/attendances?page=${currentPage}`, {
             method: 'GET',
@@ -59,7 +72,7 @@ const LiveReport: React.FC = () => {
     };
 
     fetchAttendanceData();
-  }, [currentPage]);
+  }, [currentPage, session]);
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -127,7 +140,7 @@ const LiveReport: React.FC = () => {
       </div>
       <div className={styles.attendanceList}>
         {attendanceData.map((item) => (
-          <div key={item.id} className={styles.attendanceItem}>
+          <div key={`${item.id}-${item.assisstant_code}`} className={styles.attendanceItem}>
             <div className={styles.attendanceInfo}>
               <div className={styles.attendanceID}>{item.assisstant_code}</div>
               <div className={styles.attendanceName}>{item.name}</div>

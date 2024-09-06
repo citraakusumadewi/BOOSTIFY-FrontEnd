@@ -2,6 +2,19 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import styles from './SignOut.module.css';
+import { useSession } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
+
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
+}
 
 interface SignOutPopupProps {
   onClose: () => void;
@@ -10,6 +23,7 @@ interface SignOutPopupProps {
 
 const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
   const router = useRouter();
+  const { data: session } = useSession() as { data: CustomSession }; 
 
   const handleGoBack = () => {
     onClose(); // Close the popup
@@ -17,11 +31,9 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
   };
 
   const handleSignOut = async () => {
-    const authData = localStorage.getItem('authData');
-    
-    if (authData) {
-      const parsedAuthData = JSON.parse(authData);
-      const token = parsedAuthData.token?.token; // Access the token inside the nested structure
+    if (session?.user?.token) {
+      const token = session.user.token; // Access the token inside the nested structure
+      console.log('Sending token to backend for logout:', token);
 
       if (token) {
         try {
@@ -35,8 +47,7 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
           });
 
           if (response.ok) {
-            console.log('Sign-out successful, removing token from localStorage...');
-            localStorage.removeItem('authData'); // Clear the authData from localStorage
+            console.log('Sign-out successful');
             await signOut({ redirect: false }); // Menghindari redirect otomatis
             router.push('/'); // Arahkan ke halaman utama setelah sign-out
           } else {
@@ -46,10 +57,10 @@ const SignOutPopup: React.FC<SignOutPopupProps> = ({ onClose, onSignOut }) => {
           console.error('Error during sign-out:', error);
         }
       } else {
-        console.error('No token found in localStorage');
+        console.error('No token found in session');
       }
     } else {
-      console.error('No authData found in localStorage');
+      console.error('No session found');
     }
 
     onSignOut(); // Additional actions after sign-out, if needed

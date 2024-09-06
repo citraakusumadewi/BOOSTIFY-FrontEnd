@@ -14,12 +14,14 @@ export default NextAuth({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            assisstant_code: credentials?.username,
-            password: credentials?.password,
+            assisstant_code: credentials.username,
+            password: credentials.password,
           }),
         });
 
         if (!res.ok) {
+          const errorText = await res.text(); // Mengambil respons HTML sebagai teks untuk debug
+          console.error('Error response:', errorText); 
           throw new Error('Invalid credentials');
         }
 
@@ -38,11 +40,15 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.token = user.token; // Auth token
-        token.name = user.name;
-        token.assistantCode = user.assistant_code;
+      if (user?.token) {
+        console.log("Authorize User:", user);
+        token.id = user.token.payload.id;
+        token.name = user.token.payload.name;
+        token.assistantCode = user.token.payload.assisstant_code;
+        token.token = user.token.token;
+        console.log('Assigned token:', token.token);
+      } else {
+        console.error('User or payload is undefined:', user);
       }
       return token;
     },

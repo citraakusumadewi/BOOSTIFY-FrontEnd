@@ -5,10 +5,11 @@ import styles from './HomePage.module.css';
 import Footer from '../components/Footer';
 import HomeNav from '../components/HomeNav';
 import { useTheme } from '../styles/ThemeContext';
+import { useSession } from 'next-auth/react';
 
 const HomePage: React.FC = () => {
   const { isDarkMode } = useTheme();
-
+  const { data: session, status } = useSession();
   return (
     <div className={`${styles.container} ${isDarkMode ? styles['dark-mode'] : styles['light-mode']}`}>
       <HomeNav />

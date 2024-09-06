@@ -5,40 +5,45 @@ import Image from 'next/image'; // Import Next.js Image component
 import { useTheme } from '../styles/ThemeContext';
 import styles from './HomeNav.module.css';
 import SignOut from './SignOut/SignOut';
-import { signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
+import { DefaultSession } from 'next-auth';
+
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
+}
 
 const HomeNav: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [userData, setUserData] = useState<any>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [assistantCode, setAssistantCode] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const { isDarkMode, toggleMode } = useTheme();
-
+  const { data: session } = useSession() as { data: CustomSession }; 
+  
   useEffect(() => {
     const fetchUserData = async () => {
-      const authDataString = localStorage.getItem('authData');
-      console.log('Retrieved authData from localStorage:', authDataString);
-
-      if (authDataString) {
-        const authData = JSON.parse(authDataString);
-        const token = authData.token.token;
-        console.log('Extracted token:', token);
-
-        if (token) {
+      if (session?.user?.token) {
           try {
             const response = await fetch('https://boostify-back-end.vercel.app/api/whoami', {
               method: 'GET',
               headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${session.user.token}`,
                 'Content-Type': 'application/json',
               },
             });
 
             if (!response.ok) {
               if (response.status === 401) {
-                console.warn('Token invalid, redirecting to SignIn');
-                localStorage.removeItem('authData');
+                console.warn('Token invalid, redirecting to SignIn'); 
                 router.push('/SignIn');
               } else {
                 const errorText = await response.text();
@@ -56,20 +61,13 @@ const HomeNav: React.FC = () => {
         } else {
           console.warn('No token found in authData');
         }
-      } else {
-        console.warn('No authData found');
-      }
     };
 
     fetchUserData();
-  }, [router]);
+  }, [session, router]);
 
   const handleSignOut = async () => {
     try {
-      localStorage.removeItem('authData');
-      localStorage.removeItem('nextauth.message');
-      console.log('Sign out successful, session and token removed');
-
       await signOut({ callbackUrl: '/SignIn' });
     } catch (error) {
       console.error('Sign out failed:', error);

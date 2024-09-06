@@ -1,13 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Recap.module.css';
+import { useSession } from 'next-auth/react';
 import HomeNav from '../components/HomeNav';
 import Footer from '../components/Footer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { DefaultSession } from 'next-auth';
+
 interface AttendanceItem {
   assisstant_code: string; // Assistant Code
   name: string;
   totalAttendance: number;
+}
+
+interface CustomUser {
+  id?: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  token?: string;
+}
+
+interface CustomSession extends DefaultSession {
+  user: CustomUser;
 }
 
 const Recap: React.FC = () => {
@@ -19,6 +34,7 @@ const Recap: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(8);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession() as { data: CustomSession }; 
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -43,11 +59,9 @@ const Recap: React.FC = () => {
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
-      const authDataString = localStorage.getItem('authData');
-      if (authDataString) {
+      if (session && session.user && session.user.token) {
         try {
-          const authData = JSON.parse(authDataString);
-          const token = authData.token.token;
+          const token = session.user.token;
 
           const response = await fetch(`https://boostify-back-end.vercel.app/api/recap?page=${currentPage}`, {
             method: 'GET',
@@ -78,7 +92,7 @@ const Recap: React.FC = () => {
     };
 
     fetchAttendanceData();
-  }, [currentPage]);
+  }, [currentPage, session]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
